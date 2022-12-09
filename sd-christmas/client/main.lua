@@ -89,15 +89,6 @@ AddEventHandler("canes:syncModels", function(data)
     Config.candyCanes = data
 
     for i=1, #Config.candyCanes do
-        local blip = AddBlipForCoord(Config.candyCanes[i].location)
-        SetBlipSprite(blip, 58)
-        SetBlipColour(blip, 2)
-        SetBlipScale(blip, 0.6)
-        SetBlipAsShortRange(blip, true)
-        BeginTextCommandSetBlipName("STRING")
-        AddTextComponentString("Candy Cane Test Markers")
-        EndTextCommandSetBlipName(blip)
-
         if not Config.candyCanes[i].taken then
             local hash = GetHashKey(Config.candyCanes[i].model)
             RequestModel(hash)
