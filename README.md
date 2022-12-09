@@ -7,6 +7,7 @@ https://samuels-development.tebex.io & https://discord.gg/samueldev
 
 # Showcase
 https://www.youtube.com/watch?v=9AASphfXmXk
+-- Blips for the candy cane spawns are purely for testing purposes and aren't in the actual resource!
 
 # Installation
 
