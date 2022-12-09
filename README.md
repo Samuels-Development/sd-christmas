@@ -2,7 +2,9 @@
 
 ![Christsmas Script](https://cdn.discordapp.com/attachments/860120883296993290/1050705633453821992/Christmas_Script.png "Christsmas Script")
 
-Please Consider checking out my other work here on GitHub or on my Store & Discord @ https://samuels-development.tebex.io / https://discord.gg/samueldev
+Please Consider checking out my other work here on GitHub or on my Store & Discord @
+https://samuels-development.tebex.io & https://discord.gg/samueldev
+
 
 # Installation
 
