@@ -9,6 +9,11 @@ https://samuels-development.tebex.io & https://discord.gg/samueldev
 https://www.youtube.com/watch?v=9AASphfXmXk
 -- Blips for the candy cane spawns are purely for testing purposes and aren't in the actual resource!
 
+# Requirments
+- qb-core
+- qb-menu
+- qb-target
+
 # Installation
 
 Step 1: Add sd-props & sd-christmas into your resources folder (and ensure them if needed in your server.cfg)
