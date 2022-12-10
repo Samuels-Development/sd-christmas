@@ -19,45 +19,44 @@ end)
 Citizen.CreateThread(function()
     TriggerServerEvent("canes:getCanes")
 
-    for i=1, #Config.traderNPCS do
-        local hash = GetHashKey(Config.traderNPCS[i].model)
+    local shopData = {}
+    shopData[1] = {
+        header = Config.text.shopTitle,
+        isMenuHeader = true
+    }
+    
+    for i=1, #Config.giftBoxes do
+        table.insert(shopData, {
+            header = Config.giftBoxes[i].name,
+            txt = Config.text.shopItem .. tostring(Config.giftBoxes[i].cost),
+            params = {
+                event = "canes:client:buyBox",
+                args = i
+            }
+        })
+    end
+    
+    shopData[#shopData+1] = {
+        header = Config.text.shopClose,
+        txt = "",
+        params = {
+            event = "qb-menu:closeMenu"
+        }
+    }
+    
+    for i, traderNPC in pairs(Config.traderNPCS) do
+        local hash = GetHashKey(traderNPC.model)
         RequestModel(hash)
         while not HasModelLoaded(hash) do
             Citizen.Wait(100)
         end
-
-        Config.traderNPCS[i].ped = CreatePed(0, hash, Config.traderNPCS[i].location, false, false)
-        SetEntityAsMissionEntity(Config.traderNPCS[i].ped, true, true)
-        FreezeEntityPosition(Config.traderNPCS[i].ped, true)
-        SetEntityInvincible(Config.traderNPCS[i].ped, true)
-        SetBlockingOfNonTemporaryEvents(Config.traderNPCS[i].ped, true)
-        SetEntityHeading(Config.traderNPCS[i].ped, Config.traderNPCS[i].heading)
-
-        local shopData = {}
-        shopData[1] = {
-            header = Config.text.shopTitle,
-            isMenuHeader = true
-        }
-
-        for i=1, #Config.giftBoxes do
-            table.insert(shopData, {
-                header = Config.giftBoxes[i].name,
-                txt = Config.text.shopItem .. tostring(Config.giftBoxes[i].cost),
-                params = {
-                    event = "canes:client:buyBox",
-                    args = i
-                }
-            })
-        end
-
-        shopData[#shopData+1] = {
-            header = Config.text.shopClose,
-            txt = "",
-            params = {
-                event = "qb-menu:closeMenu"
-            }
-        }
-
+    
+        traderNPC.ped = CreatePed(0, hash, traderNPC.location, false, false)
+        SetEntityAsMissionEntity(traderNPC.ped, true, true)
+        FreezeEntityPosition(traderNPC.ped, true)
+        SetEntityInvincible(traderNPC.ped, true)
+        SetBlockingOfNonTemporaryEvents(traderNPC.ped, true)
+        SetEntityHeading(traderNPC.ped, traderNPC.heading)
         exports['qb-target']:AddTargetEntity(Config.traderNPCS[i].ped, {
             options = {
                 {
@@ -88,19 +87,21 @@ AddEventHandler("canes:syncModels", function(data)
 
     Config.candyCanes = data
 
-    for i=1, #Config.candyCanes do
-        if not Config.candyCanes[i].taken then
-            local hash = GetHashKey(Config.candyCanes[i].model)
+    for i, candyCane in pairs(Config.candyCanes) do
+    
+        if not candyCane.taken then
+            local hash = GetHashKey(candyCane.model)
             RequestModel(hash)
             while not HasModelLoaded(hash) do
                 Citizen.Wait(100)
             end
-
-            Config.candyCanes[i].obj = CreateObject(hash, Config.candyCanes[i].location, false, true, true)
-            SetEntityAsMissionEntity(Config.candyCanes[i].obj, true, true)
-            FreezeEntityPosition(Config.candyCanes[i].obj, true)
-            SetEntityHeading(Config.candyCanes[i].obj, Config.candyCanes[i].heading)
-            PlaceObjectOnGroundProperly(Config.candyCanes[i].obj)
+    
+            candyCane.obj = CreateObject(hash, candyCane.location, false, true, true)
+            SetEntityAsMissionEntity(candyCane.obj, true, true)
+            FreezeEntityPosition(candyCane.obj, true)
+            SetEntityHeading(candyCane.obj, candyCane.heading)
+            PlaceObjectOnGroundProperly(candyCane.obj)
+    
 
             exports['qb-target']:AddTargetEntity(Config.candyCanes[i].obj, {
                 options = {
