@@ -31,7 +31,7 @@ AddEventHandler("canes:pickupCane", function(loc)
         TriggerClientEvent("canes:removeCane", -1, loc)
         CaneCooldown(loc)
         local Player = QBCore.Functions.GetPlayer(source)
-        Player.Functions.AddItem(Config.rewardItem, amount)
+        Player.Functions.AddItem(Config.rewardItem, 1)
         TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.rewardItem], "add")
     end
 end)
