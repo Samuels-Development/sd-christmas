@@ -10,26 +10,20 @@ Citizen.CreateThread(function()
             TriggerClientEvent("canes:client:openBox", source, i)
         end)
     end
-
-    while true do
-        Citizen.Wait(Config.respawnTime*1000)
-
-        for i=1, #Config.candyCanes do
-            Config.candyCanes[i].taken = false
-            TriggerClientEvent("canes:syncModels", -1, Config.candyCanes)
-        end
-    end
 end)
 
 RegisterNetEvent("canes:pickupCane")
 AddEventHandler("canes:pickupCane", function(loc)
+    local candyCane = Config.candyCanes[loc]
     if not Config.candyCanes[loc].taken then
-        Config.candyCanes[loc].taken = true
-        TriggerClientEvent("canes:syncModels", -1, Config.candyCanes)
+        if not candyCane.taken then
+            candyCane.taken = true
+            TriggerClientEvent("canes:syncModels", -1, Config.candyCanes)
 
-        local Player = QBCore.Functions.GetPlayer(source)
-        Player.Functions.AddItem(Config.rewardItem, amount)
-        TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.rewardItem], "add")
+            local Player = QBCore.Functions.GetPlayer(source)
+            Player.Functions.AddItem(Config.rewardItem, 1)
+            TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.rewardItem], "add")
+        end
     end
 end)
 
