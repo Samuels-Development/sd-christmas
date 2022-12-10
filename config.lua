@@ -16,6 +16,7 @@ Config.traderNPCS = {
 }
 
 Config.rewardItem = "candycane"
+Config.respawnTime = 600 -- Seconds
 
 Config.candyCanes = {
     [1] = {
