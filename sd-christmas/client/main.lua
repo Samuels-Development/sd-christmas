@@ -158,3 +158,14 @@ AddEventHandler("canes:client:openBox", function(item)
         ClearPedTasks(PlayerPedId())
     end)
 end)
+
+AddEventHandler('onResourceStop', function(resourceName)
+    if GetCurrentResourceName() == resourceName then
+        for i=1, #Config.candyCanes do
+            if Config.candyCanes[i].obj then
+                DeleteEntity(Config.candyCanes[i].obj)
+                SetEntityAsNoLongerNeeded(Config.candyCanes[i].obj)
+            end
+        end
+    end
+end)
