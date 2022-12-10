@@ -1,36 +1,45 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+GlobalState.CandyCanes = Config.candyCanes
 
 Citizen.CreateThread(function()
-    for i=1, #Config.candyCanes do
-        Config.candyCanes[i].taken = false
+    for _, v in pairs(Config.candyCanes) do
+        v.taken = false
     end
 
-    for i=1, #Config.giftBoxes do
-        QBCore.Functions.CreateUseableItem(Config.giftBoxes[i].item, function(source)
-            TriggerClientEvent("canes:client:openBox", source, i)
+    for k, v in pairs(Config.giftBoxes) do
+        QBCore.Functions.CreateUseableItem(v.item, function(source)
+            TriggerClientEvent("canes:client:openBox", source, k)
         end)
     end
 end)
 
+function CaneCooldown(loc)
+    CreateThread(function()
+        Wait(300000)
+        Config.candyCanes[loc].taken = false
+        GlobalState.CandyCanes = Config.candyCanes
+        Wait(1000)
+        TriggerClientEvent('canes:respawnCane', -1, loc)
+    end)
+end
+
 RegisterNetEvent("canes:pickupCane")
 AddEventHandler("canes:pickupCane", function(loc)
-    local candyCane = Config.candyCanes[loc]
     if not Config.candyCanes[loc].taken then
-        if not candyCane.taken then
-            candyCane.taken = true
-            TriggerClientEvent("canes:syncModels", -1, Config.candyCanes)
-
-            local Player = QBCore.Functions.GetPlayer(source)
-            Player.Functions.AddItem(Config.rewardItem, 1)
-            TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.rewardItem], "add")
-        end
+        Config.candyCanes[loc].taken = true
+        GlobalState.CandyCanes = Config.candyCanes
+        TriggerClientEvent("canes:removeCane", -1, loc)
+        CaneCooldown(loc)
+        local Player = QBCore.Functions.GetPlayer(source)
+        Player.Functions.AddItem(Config.rewardItem, amount)
+        TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.rewardItem], "add")
     end
 end)
 
-RegisterNetEvent("canes:getCanes")
-AddEventHandler("canes:getCanes", function()
-    TriggerClientEvent("canes:syncModels", source, Config.candyCanes)
-end)
+-- RegisterNetEvent("canes:getCanes")
+-- AddEventHandler("canes:getCanes", function()
+--     TriggerClientEvent("canes:syncModels", source, Config.candyCanes)
+-- end)
 
 RegisterNetEvent("canes:server:buyBox")
 AddEventHandler("canes:server:buyBox", function(item)

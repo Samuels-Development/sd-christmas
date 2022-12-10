@@ -1,4 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+local CandyCanes = {}
 
 -- Blip Creation
 
@@ -17,8 +18,6 @@ for k,v in pairs(Config.traderNPCS) do
 end)
 
 Citizen.CreateThread(function()
-    TriggerServerEvent("canes:getCanes")
-
     local shopData = {}
     shopData[1] = {
         header = Config.text.shopTitle,
@@ -75,54 +74,72 @@ Citizen.CreateThread(function()
     end
 end)
 
-
-RegisterNetEvent("canes:syncModels")
-AddEventHandler("canes:syncModels", function(data)
-    for i=1, #Config.candyCanes do
-        if Config.candyCanes[i].obj then
-            DeleteEntity(Config.candyCanes[i].obj)
-            SetEntityAsNoLongerNeeded(Config.candyCanes[i].obj)
-        end
+function LoadModel(hash)
+    hash = GetHashKey(hash)
+    RequestModel(hash)
+    while not HasModelLoaded(hash) do
+        print(1)
+        Wait(3000)
     end
+end
 
-    Config.candyCanes = data
+RegisterNetEvent('canes:respawnCane', function(loc)
+    local v = GlobalState.CandyCanes[loc]
+    local hash = GetHashKey(v.model)
+    --if not HasModelLoaded(hash) then LoadModel(hash) end
+    if not CandyCanes[loc] then
+        CandyCanes[loc] = CreateObject(hash, v.location, false, true, true)
+        SetEntityAsMissionEntity(CandyCanes[loc], true, true)
+        FreezeEntityPosition(CandyCanes[loc], true)
+        SetEntityHeading(CandyCanes[loc], v.heading)
+        exports['qb-target']:AddTargetEntity(CandyCanes[loc], {
+            options = { {
+                    icon = "fas fa-hand",
+                    label = Config.text.pickupCane,
+                    action = function()
+                        QBCore.Functions.Progressbar("pick_cane", Config.text.actionCane, 2000, false, true, {
+                            disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
+                            { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
+                            {}, {}, function()
+                            TriggerServerEvent("canes:pickupCane", loc)
+                            ClearPedTasks(PlayerPedId())
+                        end, function() -- Cancel
+                            ClearPedTasks(PlayerPedId())
+                        end)
+                    end
+                }
+            },
+            distance = 3.0
+        })
+    end
+end)
 
-    for i, candyCane in pairs(Config.candyCanes) do
-    
-        if not candyCane.taken then
-            local hash = GetHashKey(candyCane.model)
-            RequestModel(hash)
-            while not HasModelLoaded(hash) do
-                Citizen.Wait(100)
-            end
-    
-            candyCane.obj = CreateObject(hash, candyCane.location, false, true, true)
-            SetEntityAsMissionEntity(candyCane.obj, true, true)
-            FreezeEntityPosition(candyCane.obj, true)
-            SetEntityHeading(candyCane.obj, candyCane.heading)
-            PlaceObjectOnGroundProperly(candyCane.obj)
-    
+RegisterNetEvent('canes:removeCane', function(loc)
+    if DoesEntityExist(CandyCanes[loc]) then DeleteEntity(CandyCanes[loc]) end
+    CandyCanes[loc] = nil
+end)
 
-            exports['qb-target']:AddTargetEntity(Config.candyCanes[i].obj, {
-                options = {
-                    {
+RegisterNetEvent("canes:init", function()
+    for k, v in pairs (GlobalState.CandyCanes) do
+        print(k)
+        local hash = GetHashKey(v.model)
+        if not HasModelLoaded(hash) then LoadModel(hash) end
+        print(hash)
+        if not v.taken then
+            CandyCanes[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
+            SetEntityAsMissionEntity(CandyCanes[k], true, true)
+            FreezeEntityPosition(CandyCanes[k], true)
+            SetEntityHeading(CandyCanes[k], v.heading)
+            exports['qb-target']:AddTargetEntity(CandyCanes[k], {
+                options = { {
                         icon = "fas fa-hand",
                         label = Config.text.pickupCane,
-                        canInteract = function()
-                            return true
-                        end,
                         action = function()
                             QBCore.Functions.Progressbar("pick_cane", Config.text.actionCane, 2000, false, true, {
-                                disableMovement = true,
-                                disableCarMovement = true,
-                                disableMouse = false,
-                                disableCombat = true,
-                            }, {
-                                animDict = 'amb@prop_human_bum_bin@idle_a',
-                                anim = 'idle_a',
-                                flags = 47,
-                            }, {}, {}, function() -- Done
-                                TriggerServerEvent("canes:pickupCane", i)
+                                disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
+                                { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
+                                {}, {}, function()
+                                TriggerServerEvent("canes:pickupCane", k)
                                 ClearPedTasks(PlayerPedId())
                             end, function() -- Cancel
                                 ClearPedTasks(PlayerPedId())
@@ -135,6 +152,67 @@ AddEventHandler("canes:syncModels", function(data)
         end
     end
 end)
+
+
+-- RegisterNetEvent("canes:syncModels")
+-- AddEventHandler("canes:syncModels", function(data)
+--     for i=1, #Config.candyCanes do
+--         if Config.candyCanes[i].obj then
+--             DeleteEntity(Config.candyCanes[i].obj)
+--             SetEntityAsNoLongerNeeded(Config.candyCanes[i].obj)
+--         end
+--     end
+
+--     Config.candyCanes = data
+
+--     for i, candyCane in pairs(Config.candyCanes) do
+    
+--         if not candyCane.taken then
+--             local hash = GetHashKey(candyCane.model)
+--             RequestModel(hash)
+--             while not HasModelLoaded(hash) do
+--                 Citizen.Wait(100)
+--             end
+    
+--             candyCane.obj = CreateObject(hash, candyCane.location, false, true, true)
+--             SetEntityAsMissionEntity(candyCane.obj, true, true)
+--             FreezeEntityPosition(candyCane.obj, true)
+--             SetEntityHeading(candyCane.obj, candyCane.heading)
+--             PlaceObjectOnGroundProperly(candyCane.obj)
+    
+
+--             exports['qb-target']:AddTargetEntity(Config.candyCanes[i].obj, {
+--                 options = {
+--                     {
+--                         icon = "fas fa-hand",
+--                         label = Config.text.pickupCane,
+--                         canInteract = function()
+--                             return true
+--                         end,
+--                         action = function()
+--                             QBCore.Functions.Progressbar("pick_cane", Config.text.actionCane, 2000, false, true, {
+--                                 disableMovement = true,
+--                                 disableCarMovement = true,
+--                                 disableMouse = false,
+--                                 disableCombat = true,
+--                             }, {
+--                                 animDict = 'amb@prop_human_bum_bin@idle_a',
+--                                 anim = 'idle_a',
+--                                 flags = 47,
+--                             }, {}, {}, function() -- Done
+--                                 TriggerServerEvent("canes:pickupCane", i)
+--                                 ClearPedTasks(PlayerPedId())
+--                             end, function() -- Cancel
+--                                 ClearPedTasks(PlayerPedId())
+--                             end)
+--                         end
+--                     }
+--                 },
+--                 distance = 3.0
+--             })
+--         end
+--     end
+-- end)
 
 RegisterNetEvent("canes:client:buyBox")
 AddEventHandler("canes:client:buyBox", function(item)
@@ -160,12 +238,25 @@ AddEventHandler("canes:client:openBox", function(item)
     end)
 end)
 
+AddEventHandler('onResourceStart', function(resource)
+    if resource == GetCurrentResourceName() then
+        LoadModel('bzzz_xmas_script_lollipop_a')
+        TriggerEvent('canes:init')
+    end
+ end)
+ 
+ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+     Wait(3000)
+     LoadModel('bzzz_xmas_script_lollipop_a')
+     TriggerEvent('canes:init')
+ end)
+
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
-        for i=1, #Config.candyCanes do
-            if Config.candyCanes[i].obj then
-                DeleteEntity(Config.candyCanes[i].obj)
-                SetEntityAsNoLongerNeeded(Config.candyCanes[i].obj)
+        SetModelAsNoLongerNeeded(GetHashKey('bzzz_xmas_script_lollipop_a'))
+        for k, v in pairs(CandyCanes) do
+            if DoesEntityExist(v) then
+                DeleteEntity(v) SetEntityAsNoLongerNeeded(v)
             end
         end
     end

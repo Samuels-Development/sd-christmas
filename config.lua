@@ -24,7 +24,7 @@ Config.candyCanes = {
         model = "bzzz_xmas_script_lollipop_a"
     },
     [2] = {
-        location = vector3(-532.97, 464.34, 103.19),
+        location = vector3(-532.97, 464.34, 102.19),
         heading = 329.56,
         model = "bzzz_xmas_script_lollipop_a"
     },
