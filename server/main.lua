@@ -36,11 +36,6 @@ AddEventHandler("canes:pickupCane", function(loc)
     end
 end)
 
--- RegisterNetEvent("canes:getCanes")
--- AddEventHandler("canes:getCanes", function()
---     TriggerClientEvent("canes:syncModels", source, Config.candyCanes)
--- end)
-
 RegisterNetEvent("canes:server:buyBox")
 AddEventHandler("canes:server:buyBox", function(item)
     local src = source
