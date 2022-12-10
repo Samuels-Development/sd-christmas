@@ -15,7 +15,7 @@ end)
 
 function CaneCooldown(loc)
     CreateThread(function()
-        Wait(300000)
+        Wait(Config.Respawntime * 1000)
         Config.candyCanes[loc].taken = false
         GlobalState.CandyCanes = Config.candyCanes
         Wait(1000)
