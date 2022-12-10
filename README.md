@@ -5,6 +5,9 @@
 Please Consider checking out my other work here on GitHub or on my Store & Discord @
 https://samuels-development.tebex.io & https://discord.gg/samueldev
 
+# Common Issue
+- Restarting the resource whilst in-game will break the prop spawns!
+
 # Showcase
 https://www.youtube.com/watch?v=9AASphfXmXk
 -- Blips for the candy cane spawns are purely for testing purposes and aren't in the actual resource!
