@@ -5,6 +5,8 @@
 Please Consider checking out my other work here on GitHub or on my Store & Discord @
 https://samuels-development.tebex.io & https://discord.gg/samueldev
 
+If you encounter any issues/bugs etc. you'd like adressed, make sure to join my discord and ask for support in the appropriate chat(s) or make an issue here on GitHub!
+
 # Common Issue
 - Restarting the resource whilst in-game will break the prop spawns!
 
