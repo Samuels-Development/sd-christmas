@@ -19,7 +19,7 @@ https://www.youtube.com/watch?v=9AASphfXmXk
 
 # Installation
 
-Step 1: Add sd-props & sd-christmas into your resources folder (and ensure them if needed in your server.cfg)
+Step 1: Add sd-christmas into your resources folder (and ensure it if needed in your server.cfg)
 
 Step 2: Add the following items into your qb-core/shared/items.lua:
 
