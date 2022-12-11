@@ -18,6 +18,74 @@ Config.traderNPCS = {
 Config.rewardItem = "candycane"
 Config.respawnTime = 600 -- Seconds
 
+Config.giftBoxes = {
+    [1] = {
+        name = "🎁 Small Giftbox",
+        item = "giftbox_small",
+        cost = 5,
+        rewards = {
+            {
+                item = "lockpick",
+                amount = 1
+            },
+            {
+                item = "drill",
+                amount = 1
+            },
+            {
+                item = "oxy",
+                amount = 4
+            },
+        }
+    },
+    [2] = {
+        name = "🎁 Medium Giftbox",
+        item = "giftbox_medium",
+        cost = 10,
+        rewards = {
+            {
+                item = "advancedlockpick",
+                amount = 2
+            },
+            {
+                item = "thermite",
+                amount = 1
+            },
+            {
+                item = "nitrous",
+                amount = 2
+            },
+        }
+    },
+    [3] = {
+        name = "🎁 Large Giftbox",
+        item = "giftbox_large",
+        cost = 20,
+        rewards = {
+            {
+                item = "tunerlaptop",
+                amount = 1
+            },
+            {
+                item = "cryptostick",
+                amount = 1
+            },
+        }
+    }
+}
+
+Config.text = {
+    pickupCane = "Pickup Cane.",
+    actionCane = "Picking up a cane.",
+    openBox = "Opening Present..",
+
+    shopCane = "Candy Cane Shop",
+    shopTitle = "⛄ Christmas ⛄",
+    shopItem = "|🍭| Exchange the following amount of Candy: x",
+    shopClose = "Close (ESC)",
+}
+
+
 Config.candyCanes = {
     [1] = {
         location = vector3(170.93, -984.38, 29.09),
@@ -836,71 +904,4 @@ Config.candyCanes = {
         model = "bzzz_xmas_script_lollipop_a"
     }, ]]
 
-}
-
-Config.giftBoxes = {
-    [1] = {
-        name = "🎁 Small Giftbox",
-        item = "giftbox_small",
-        cost = 5,
-        rewards = {
-            {
-                item = "lockpick",
-                amount = 1
-            },
-            {
-                item = "drill",
-                amount = 1
-            },
-            {
-                item = "oxy",
-                amount = 4
-            },
-        }
-    },
-    [2] = {
-        name = "🎁 Medium Giftbox",
-        item = "giftbox_medium",
-        cost = 10,
-        rewards = {
-            {
-                item = "advancedlockpick",
-                amount = 2
-            },
-            {
-                item = "thermite",
-                amount = 1
-            },
-            {
-                item = "nitrous",
-                amount = 2
-            },
-        }
-    },
-    [3] = {
-        name = "🎁 Large Giftbox",
-        item = "giftbox_large",
-        cost = 20,
-        rewards = {
-            {
-                item = "tunerlaptop",
-                amount = 1
-            },
-            {
-                item = "cryptostick",
-                amount = 1
-            },
-        }
-    }
-}
-
-Config.text = {
-    pickupCane = "Pickup Cane.",
-    actionCane = "Picking up a cane.",
-    openBox = "Opening Present..",
-
-    shopCane = "Candy Cane Shop",
-    shopTitle = "⛄ Christmas ⛄",
-    shopItem = "|🍭| Exchange the following amount of Candy: x",
-    shopClose = "Close (ESC)",
 }
