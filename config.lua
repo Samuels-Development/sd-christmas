@@ -628,6 +628,213 @@ Config.candyCanes = {
         heading = 150.62,
         model = "bzzz_xmas_script_lollipop_a"
     },
+-- New Additions:
+  --[[  [122] = {
+        location = vector3(54.23, -1325.78, 28.31),
+        heading = 79.11,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [123] = {
+        location = vector3(-23.69, -1637.21, 28.3),
+        heading = 228.65,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [124] = {
+        location = vector3(-122.03, -1770.59, 28.82),
+        heading = 138.65,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [125] = {
+        location = vector3(319.13, -1290.1, 30.22),
+        heading = 228.89,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [126] = {
+        location = vector3(-599.08, -933.28, 22.86),
+        heading = 139.99,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [127] = {
+        location = vector3(198.12, -1279.84, 28.32),
+        heading = 226.05,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [128] = {
+        location = vector3(-1111.27, -1600.5, 4.62),
+        heading = 234.71,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [129] = {
+        location = vector3(189.52, -1109.98, 28.29),
+        heading = 131.64,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [130] = {
+        location = vector3(414.4, -934.83, 28.42),
+        heading = 150.62,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    -- New Additions:
+    [131] = {
+        location = vector3(357.52, -834.13, 28.29),
+        heading = 278.55,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [132] = {
+        location = vector3(216.36, -813.32, 29.66),
+        heading = 32.01,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [133] = {
+        location = vector3(47.37, -796.51, 30.59),
+        heading = 162.72,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [134] = {
+        location = vector3(-84.96, -1035.09, 27.1),
+        heading = 34.77,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [135] = {
+        location = vector3(-62.44, -1122.85, 24.87),
+        heading = 123.9,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [136] = {
+        location = vector3(130.6, -1297.99, 28.23),
+        heading = 103.2,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [137] = {
+        location = vector3(25.76, -1349.93, 28.33),
+        heading = 125.65,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [138] = {
+        location = vector3(-98.55, -1385.04, 28.33),
+        heading = 183.05,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [139] = {
+        location = vector3(158.65, -1431.23, 28.24),
+        heading = 44.49,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [140] = {
+        location = vector3(154.28, -1567.21, 28.3),
+        heading = 229.03,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [141] = {
+        location = vector3(175.94, -1542.92, 28.26),
+        heading = 22.88,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [142] = {
+        location = vector3(336.59, -1745.78, 28.48),
+        heading = 285.29,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [143] = {
+        location = vector3(166.99, -1795.8, 28.21),
+        heading = 93.99,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [144] = {
+        location = vector3(99.07, -1714.52, 29.11),
+        heading = 301.4,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [145] = {
+        location = vector3(100.24, -1916.8, 19.97),
+        heading = 138.96,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [146] = {
+        location = vector3(46.04, -1910.26, 20.8),
+        heading = 49.51,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [147] = {
+        location = vector3(-57.04, -1771.66, 28.01),
+        heading = 79.11,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [148] = {
+        location = vector3(-62.02, -1777.45, 27.96),
+        heading = 228.65,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [149] = {
+        location = vector3(-93.62, -1658.11, 28.31),
+        heading = 138.65,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [150] = {
+        location = vector3(-0.76, -1449.9, 29.54),
+        heading = 228.89,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [151] = {
+        location = vector3(-115.21, -1500.39, 32.92),
+        heading = 139.99,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [152] = {
+        location = vector3(-242.34, -1410.43, 30.15),
+        heading = 226.05,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [153] = {
+        location = vector3(-296.36, -1253.39, 27.86),
+        heading = 234.71,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [154] = {
+        location = vector3(-324.61, -960.97, 30.08),
+        heading = 131.64,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [155] = {
+        location = vector3(-349.91, -901.33, 30.07),
+        heading = 150.62,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [156] = {
+        location = vector3(-355.84, -706.18, 31.41),
+        heading = 138.65,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [157] = {
+        location = vector3(-297.8, -639.42, 32.28),
+        heading = 228.89,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [158] = {
+        location = vector3(-225.29, -259.54, 48.76),
+        heading = 139.99,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [159] = {
+        location = vector3(-239.35, -250.51, 48.7),
+        heading = 226.05,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [160] = {
+        location = vector3(-237.18, -230.12, 48.87),
+        heading = 234.71,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [161] = {
+        location = vector3(19.96, -124.22, 55.05),
+        heading = 131.64,
+        model = "bzzz_xmas_script_lollipop_a"
+    },
+    [162] = {
+        location = vector3(307.07, -272.22, 52.95),
+        heading = 150.62,
+        model = "bzzz_xmas_script_lollipop_a"
+    }, ]]
 
 }
 
