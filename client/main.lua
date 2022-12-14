@@ -132,6 +132,9 @@ RegisterNetEvent("canes:init", function()
                         icon = "fas fa-hand",
                         label = Config.text.pickupCane,
                         action = function()
+                            if IsPedInAnyVehicle(PlayerPedId()) then
+                                QBCore.Functions.Notify("You can't reach the candy cane..", "error")
+                              else
                             QBCore.Functions.Progressbar("pick_cane", Config.text.actionCane, 2000, false, true, {
                                 disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
                                 { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
@@ -142,6 +145,7 @@ RegisterNetEvent("canes:init", function()
                                 ClearPedTasks(PlayerPedId())
                             end)
                         end
+                    end
                     }
                 },
                 distance = 3.0
