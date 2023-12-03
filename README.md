@@ -1,7 +1,7 @@
-sd-christmas
-Christsmas Script
+# sd-christmas
 
-Please Consider checking out my other work here on GitHub or on my Store & Discord @ https://fivem.samueldev.shop & https://discord.gg/samueldev
+Please Consider checking out my other work here on GitHub or on my Store & Discord @ 
+https://fivem.samueldev.shop & https://discord.gg/samueldev
 
 Showcase
 https://www.youtube.com/watch?v=9AASphfXmXk -- Blips for the candy cane spawns are purely for testing purposes and aren't in the actual resource!
@@ -21,6 +21,5 @@ Or if you're using ESX, add them to your database...
 
 Step: 3 You're good to go!
 
-Credits
+# Credits
 BzZz 🐝#9999 - https://bzzz.tebex.io/ (For allowing me to give out one of there props, that was also edited for me..) marcinhu#0001 - https://marcinhu.tebex.io/ (For giving me the idea and helping out by sending some of the coordinates for his script..)
-# Installation
