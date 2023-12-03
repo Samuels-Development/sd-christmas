@@ -13,6 +13,11 @@ CreateThread(function()
         v.taken = false
     end
 
+    for k, v in pairs(Config.giftBoxes) do
+        RegisterUsableItem(v.item, function(source)
+            TriggerClientEvent("canes:client:openBox", source, k)
+        end)
+    end
 end)
 
 CaneCooldown = function(loc)
