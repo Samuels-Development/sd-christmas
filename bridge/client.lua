@@ -97,8 +97,11 @@ end
 LoadModel = function(model)
 	if not HasModelLoaded(model) and IsModelInCdimage(model) then
 		RequestModel(model)
+
+        print('Loading model', model)
 	
 		while not HasModelLoaded(model) do
+            print('Waiting for model', model)
 			Wait(1)
 		end
 	end
@@ -107,13 +110,14 @@ end
 -- Function to display a notification
 ShowNotification = function(message, type)
     -- Check if the ox_lib (library) is available
-   if lib ~= nil and Config.UseOxNotifications then
+   if lib ~= nil and Config.OxSettings.Notifications then
        -- Display notification using ox_lib
        lib.notify({
+           title = 'Gift Shop',
            description = message or false,
            id = id or false,
-           position = Config.OxLibSettings.NotificationPos,
-           icon = icon or false,
+           position = Config.OxSettings.NotificationsPos,
+           icon = "fa-tree",
            duration = 3500,
            type = type
        })
@@ -122,6 +126,7 @@ ShowNotification = function(message, type)
        if Framework == 'esx' then
            ESX.ShowNotification(message)
        elseif Framework == 'qb' then
+        print('Showing notification', message, type or 'error')
            QBCore.Functions.Notify(message, type)
        end
    end
@@ -136,13 +141,12 @@ end)
 -- Function to start a progress bar
 StartProgress = function(identifier, label, duration, completed, notfinished)
     -- Check if the ox_lib (library) is available for progress bar generation
-    if lib ~= nil and Config.OxLibSettings.EnableProgressBar then
+    if lib ~= nil and Config.OxSettings.ProgressBars then
         -- Determine the type of progress bar from the configuration settings
-        if Config.OxLibSettings.ProgressBarType == 'circular' then
+        if Config.OxSettings.ProgressBarPos == 'circular' then
             -- Initiate a circular progress bar using ox_lib functionalities
             if lib.progressCircle({
                 duration = duration,  
-                position = Config.OxLibSettings.CircularPos,  
                 useWhileDead = false, 
                 canCancel = true,     
                 disable = { move = true }  
@@ -151,7 +155,7 @@ StartProgress = function(identifier, label, duration, completed, notfinished)
             else 
                 notfinished()
             end
-        elseif Config.OxLibSettings.ProgressBarType == 'normal' then
+        elseif Config.OxSettings.ProgressBarPos == 'normal' then
             -- Initiate a standard linear progress bar using ox_lib functionalities
             if lib.progressBar({
                 duration = duration,  

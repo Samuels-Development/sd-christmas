@@ -6,13 +6,13 @@ lib.registerContext({
     title = 'Christmas Gift Shop',
     options = (function()
         local items = {}
-        for _, box in ipairs(Config.GiftBoxes) do
+        for index, box in ipairs(Config.GiftBoxes) do
             table.insert(items, {
                 title = box.name,
                 description = 'Exchange the following amount of Candy: x' .. tostring(box.cost),
                 icon = "fa-gift",
                 onSelect = function()
-                    TriggerServerEvent("sd-christmas:server:buyBox", box.id)
+                    TriggerServerEvent("canes:server:buyBox", index)
                 end
             })
         end
@@ -30,10 +30,8 @@ lib.registerContext({
 
 -- Ped Creation Function
 CreatePedAtCoords = function(pedModel, coords, scenario)
-    print('Creating Ped', pedModel, coords, scenario)
     if type(pedModel) == "string" then pedModel = GetHashKey(pedModel) end
     LoadModel(pedModel)
-    print('Creating Ped at '..coords.x..', '..coords.y..', '..coords.z..', '..coords.w)
     local ped = CreatePed(0, pedModel, coords.x, coords.y, coords.z, coords.w, false, false)
     FreezeEntityPosition(ped, true)
     TaskStartScenarioInPlace(ped, scenario, 0, true)
@@ -133,8 +131,9 @@ RegisterNetEvent("canes:init", function()
     for k, v in pairs(GlobalState.CandyCanes) do
         local hash = GetHashKey(v.model)
         if not HasModelLoaded(hash) then LoadModel(hash) end
+        -- print('Creating Candy Cane', k, v.model, v.location.x, v.location.y, v.location.z)
         if not v.taken then
-            CandyCanes[k] = CreateObject(hash, v.location.x, v.location.y, v.location.z, false, true, true)
+            CandyCanes[k] = CreateObject(v.model, v.location.x, v.location.y, v.location.z, false, true, true)
             SetEntityAsMissionEntity(CandyCanes[k], true, true)
             FreezeEntityPosition(CandyCanes[k], true)
             SetEntityHeading(CandyCanes[k], v.heading)
@@ -148,15 +147,12 @@ RegisterNetEvent("canes:init", function()
                             if IsPedInAnyVehicle(playerPed) then
                                 ShowNotification("You can't reach the candy cane..", "error")
                             else
-                                local animDict = "amb@prop_human_bum_bin@idle_a" -- Replace with your animation dictionary
-                                local animName = "idle_a" -- Replace with your animation name
-
-                                RequestAnimDict(animDict)
-                                while not HasAnimDictLoaded(animDict) do
+                                RequestAnimDict('amb@prop_human_bum_bin@idle_a')
+                                while not HasAnimDictLoaded('amb@prop_human_bum_bin@idle_a') do
                                     Wait(100)
                                 end
 
-                                TaskPlayAnim(playerPed, animDict, animName, 8.0, -8.0, -1, 49, 0, false, false, false)
+                                TaskPlayAnim(playerPed, 'amb@prop_human_bum_bin@idle_a', 'idle_a', 8.0, -8.0, -1, 49, 0, false, false, false)
                                 PickupCandy(k)
                             end
                         end
@@ -178,6 +174,11 @@ RegisterNetEvent("canes:client:openBox", function(item)
             ClearPedTasks(PlayerPedId())
         end
     )
+end)
+
+CreateThread(function()
+    while not GlobalState.CandyCanes do Wait(0) end
+    TriggerEvent("canes:init")
 end)
 
 AddEventHandler('onResourceStart', function(resource)

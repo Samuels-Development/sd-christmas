@@ -1,8 +1,16 @@
 Config = {}
 
 -- General Settings
-Config.RewardItem = "candycane"
+Config.RewardItem = "laptop"
 Config.RespawnTime = 600 -- Seconds
+
+Config.OxSettings = {
+    Notifications = true, -- true/false -- If set to true, the resource will use ox_lib notifications for all notifications, false will use your framework-specific notifications (eg. QBCore.Functions.Notify for ex.)  
+    NotificationPos = 'bottom', -- middle/bottom
+    ProgressBars = true, -- true/false -- If set to true, the resource will use ox_lib progress bars for all progress bars, false will use your framework-specific progress bars (eg. QBCore.Functions.Progressbar for ex.)
+    ProgressBarPos = 'circular', -- circular/normal
+}
+
 Config.UseOxNotifications = true -- true/false -- If set to true, the resource will use ox_lib notifications for all notifications, false will use your framework-specific notifications (eg. QBCore.Functions.Notify for ex.)
 
 -- Candy Cane Ped Settings
@@ -26,7 +34,7 @@ Config.PedBlip = {
     Sprite = 89,    -- Sprite/Icon for the blip
     Display = 4,     -- Display type
     Scale = 0.6,     -- Scale of the blip
-    Colour = 33,      -- Colour of the blip
+    Colour = 6,      -- Colour of the blip
     Name = "Candy Cane Shop"  -- Name of the blip
 }
 

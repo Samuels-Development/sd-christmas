@@ -13,11 +13,6 @@ CreateThread(function()
         v.taken = false
     end
 
-    for k, v in pairs(Config.GiftBoxes) do
-        RegisterUsableItem(v.item, function(source)
-            TriggerClientEvent("canes:client:openBox", source, k)
-        end)
-    end
 end)
 
 CaneCooldown = function(loc)
@@ -44,12 +39,12 @@ end)
 RegisterNetEvent("canes:server:buyBox", function(item)
     local Player = GetPlayer(source)
     local cost = Config.GiftBoxes[item].cost
-    local invItem = HasItem(Config.RewardItem)
+    local invItem = HasItem(source, Config.RewardItem)
 
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
     local isNearCandyCane = #(playerCoords - vector3(GlobalState.CandyCaneLocation.x, GlobalState.CandyCaneLocation.y, GlobalState.CandyCaneLocation.z)) < Config.Ped.Interaction.Distance
     if isNearCandyCane then
-        if invItem ~= nil and invItem.amount >= cost then
+        if invItem ~= nil and invItem >= cost then
             RemoveItem(source, Config.RewardItem, cost)
             AddItem(source, Config.GiftBoxes[item].item, 1)
         else
