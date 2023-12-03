@@ -1,7 +1,8 @@
 # sd-christmas
 
-![image](https://github.com/Samuels-Development/sd-christmas/assets/99494967/e295c10f-7264-440e-a9f0-224668dc5f6c)
+![image_2023-12-03_191405375](https://github.com/Samuels-Development/sd-christmas/assets/99494967/f09ec324-6de7-4dec-aa35-d23e6971250e)
 ---
+
 
 
 Collect candy canes and exchange them for Gifts with randomized loot in them!
