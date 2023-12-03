@@ -148,9 +148,7 @@ RegisterNetEvent("canes:init", function()
                                 ShowNotification("You can't reach the candy cane..", "error")
                             else
                                 RequestAnimDict('amb@prop_human_bum_bin@idle_a')
-                                while not HasAnimDictLoaded('amb@prop_human_bum_bin@idle_a') do
-                                    Wait(100)
-                                end
+                                while not HasAnimDictLoaded('amb@prop_human_bum_bin@idle_a') do Wait(100) end
 
                                 TaskPlayAnim(playerPed, 'amb@prop_human_bum_bin@idle_a', 'idle_a', 8.0, -8.0, -1, 49, 0, false, false, false)
                                 PickupCandy(k)
@@ -165,6 +163,11 @@ RegisterNetEvent("canes:init", function()
 end)
 
 RegisterNetEvent("canes:client:openBox", function(item)
+    local playerPed = PlayerPedId()
+    RequestAnimDict('anim@gangops@facility@servers@')
+    while not HasAnimDictLoaded('anim@gangops@facility@servers@') do Wait(100) end
+
+    TaskPlayAnim(playerPed, 'anim@gangops@facility@servers@', 'hotwire', 8.0, -8.0, -1, 49, 0, false, false, false)
     StartProgress("open_box", 'Opening up Gift Box..', math.random(2000, 3500), 
         function() -- Done
             TriggerServerEvent("canes:server:openBox", item)

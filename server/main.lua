@@ -13,7 +13,7 @@ CreateThread(function()
         v.taken = false
     end
 
-    for k, v in pairs(Config.giftBoxes) do
+    for k, v in pairs(Config.GiftBoxes) do
         RegisterUsableItem(v.item, function(source)
             TriggerClientEvent("canes:client:openBox", source, k)
         end)
@@ -55,18 +55,34 @@ RegisterNetEvent("canes:server:buyBox", function(item)
         else
             TriggerClientEvent('sd_bridge:notification', source, "You don't have enough Candy", "error", 2500)
         end
-    else
-        TriggerClientEvent('sd_bridge:notification', source, "You are not near the Candy Cane location", "error", 2500)
     end
 end)
 
 RegisterNetEvent("canes:server:openBox", function(i)
     local Player = GetPlayer(source)
-    local invItem = HasItem(Config.GiftBoxes[i].item)
+    local invItem = HasItem(source, Config.GiftBoxes[i].item)
 
-    if invItem ~= nil and invItem.amount >= 1 then
-        local reward = Config.GiftBoxes[i].rewards[math.random(1, #Config.GiftBoxes[i].rewards)]
+    if invItem ~= nil and invItem >= 1 then
         RemoveItem(source, Config.GiftBoxes[i].item, 1)
-        AddItem(source, reward.item, reward.amount)
+
+        local numRewards = Config.NumRewards
+        local givenRewards = 0
+
+        -- Create a copy of the rewards list to modify
+        local availableRewards = {}
+        for index, reward in ipairs(Config.GiftBoxes[i].rewards) do
+            table.insert(availableRewards, reward)
+        end
+
+        while givenRewards < numRewards and #availableRewards > 0 do
+            local rewardIndex = math.random(1, #availableRewards)
+            local reward = availableRewards[rewardIndex]
+
+            AddItem(source, reward.item, reward.amount)
+            givenRewards = givenRewards + 1
+
+            -- Remove the given reward from the available list
+            table.remove(availableRewards, rewardIndex)
+        end
     end
 end)

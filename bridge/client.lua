@@ -146,6 +146,7 @@ StartProgress = function(identifier, label, duration, completed, notfinished)
         if Config.OxSettings.ProgressBarPos == 'circular' then
             -- Initiate a circular progress bar using ox_lib functionalities
             if lib.progressCircle({
+                position = 'bottom',
                 duration = duration,  
                 useWhileDead = false, 
                 canCancel = true,     
