@@ -8,8 +8,9 @@ Collect candy canes and exchange them for Gifts with randomized loot in them!
 
 Please Consider checking out my other work here on GitHub or on my Store & Discord @ 
 https://fivem.samueldev.shop & https://discord.gg/samueldev
+---
 
-# Showcase
+Showcase
 https://www.youtube.com/watch?v=9AASphfXmXk 
 -- Blips for the candy cane spawns are purely for testing purposes and aren't in the actual resource!
 
@@ -24,9 +25,10 @@ Step 2: Add the following items into your qb-core/shared/items.lua:
 	['giftbox_large'] 				 	 = {['name'] = 'giftbox_large', 			  	  	['label'] = 'Large Present', 			    ['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'giftbox_large.png', 			    ['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A Large Present packed with gifts..'},
 
 
-Or if you're using ESX, add them to your database...
+Or if you're using ESX, run the SQL found in the SQL/ESX directory.
 
 Step: 3 You're good to go!
 
 # Credits
-BzZz 🐝#9999 - https://bzzz.tebex.io/ (For allowing me to give out one of there props, that was also edited for me..) marcinhu#0001 - https://marcinhu.tebex.io/ (For giving me the idea and helping out by sending some of the coordinates for his script..)
+BzZz 🐝#9999 - https://bzzz.tebex.io/ (For allowing me to give out one of there props, that was also edited for me..) 
+marcinhu#0001 - https://marcinhu.tebex.io/ (For giving me the idea and helping out by sending some of the coordinates for his script..)
