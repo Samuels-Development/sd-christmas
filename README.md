@@ -13,6 +13,10 @@ https://fivem.samueldev.shop & https://discord.gg/samueldev
 https://www.youtube.com/watch?v=9AASphfXmXk 
 -- Blips for the candy cane spawns are purely for testing purposes and aren't in the actual resource!
 
+# Requirements
+- qb-core or es_extended
+- ox_lib
+
 # Installation
 Step 1: Add sd-christmas into your resources folder (and ensure it if needed in your server.cfg)
 
