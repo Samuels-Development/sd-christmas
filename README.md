@@ -22,7 +22,7 @@ Step 2: Add the following items into your qb-core/shared/items.lua:
 
 Or if you're using ESX, add them to your database...
 
-Now you're done and ready to start collecting!
+Step: 3 You're good to go! 
 
 # Credits
 
