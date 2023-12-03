@@ -1,26 +1,49 @@
-Config = {} --Ignore.
+Config = {}
 
--- Thank you, if you have any questions let me know.
+-- General Settings
+Config.RewardItem = "candycane"
+Config.RespawnTime = 600 -- Seconds
+Config.UseOxNotifications = true -- true/false -- If set to true, the resource will use ox_lib notifications for all notifications, false will use your framework-specific notifications (eg. QBCore.Functions.Notify for ex.)
 
-Config.traderNPCS = {
-    [1] = {
-        location = vector3(-769.74, -24.77, 40.08),
-        heading = 203.74, 
-        model = "a_m_m_prolhost_01"
+-- Candy Cane Ped Settings
+Config.Ped = {
+    Enable = true, -- If enabled, the candy cane shop ped will spawn at the location below.
+    Location = {
+        {x = -769.74, y = -24.77, z = 40.08, w = 234.9},
+        -- Add more locations as needed (Will Randomize from available locations each script start)
     },
-    [2] = {
-        location = vector3(172.46, -985.99, 29.09),
-        heading = 114.22, 
-        model = "a_f_y_femaleagent"
+    Model = "a_m_m_prolhost_01",
+    Interaction = {
+        Icon = "fas fa-circle",
+        Distance = 3.0,
     },
+    Scenario = "WORLD_HUMAN_STAND_IMPATIENT" -- Full list of scenarios @ https://pastebin.com/6mrYTdQv
 }
 
-Config.rewardItem = "candycane"
-Config.respawnTime = 600 -- Seconds
+-- Blip Creation for Candy Cane Ped if he's enabled
+Config.PedBlip = {
+    Enable = true,  -- Set to false to disable blip creation
+    Sprite = 89,    -- Sprite/Icon for the blip
+    Display = 4,     -- Display type
+    Scale = 0.6,     -- Scale of the blip
+    Colour = 33,      -- Colour of the blip
+    Name = "Candy Cane Shop"  -- Name of the blip
+}
 
-Config.giftBoxes = {
+-- Names for the Core that'll be used to split ESX/QBCore Logic.
+Config.CoreNames = {
+    QBCore = 'qb-core', -- Edit, if you've renamed qb-core.
+    ESX = 'es_extended', -- Edit, if you've renamed es_extended
+}
+
+-- Name that will be checked for to then use ox_inventory specific exports.
+Config.InvName = {
+    OX = 'ox_inventory' -- Edit if you've renamed ox_inventory
+}
+
+Config.GiftBoxes = {
     [1] = {
-        name = "🎁 Small Giftbox",
+        name = "Small Giftbox",
         item = "giftbox_small",
         cost = 5,
         rewards = {
@@ -39,7 +62,7 @@ Config.giftBoxes = {
         }
     },
     [2] = {
-        name = "🎁 Medium Giftbox",
+        name = "Medium Giftbox",
         item = "giftbox_medium",
         cost = 10,
         rewards = {
@@ -58,7 +81,7 @@ Config.giftBoxes = {
         }
     },
     [3] = {
-        name = "🎁 Large Giftbox",
+        name = "Large Giftbox",
         item = "giftbox_large",
         cost = 20,
         rewards = {
@@ -74,19 +97,10 @@ Config.giftBoxes = {
     }
 }
 
-Config.text = {
-    pickupCane = "Pickup Cane.",
-    actionCane = "Picking up a cane.",
-    openBox = "Opening Present..",
+if GetResourceState(Config.CoreNames.QBCore) == 'started' then Framework = 'qb' elseif GetResourceState(Config.CoreNames.ESX) == 'started' then Framework = 'esx' end
+invState = GetResourceState(Config.InvName.OX)
 
-    shopCane = "Candy Cane Shop",
-    shopTitle = "⛄ Christmas ⛄",
-    shopItem = "|🍭| Exchange the following amount of Candy: x",
-    shopClose = "Close (ESC)",
-}
-
-
-Config.candyCanes = {
+Config.CandyCanes = {
     [1] = {
         location = vector3(170.93, -984.38, 29.09),
         heading = 334.49,

@@ -1,86 +1,91 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 local CandyCanes = {}
 
--- Blip Creation
-
-Citizen.CreateThread(function()
-for k,v in pairs(Config.traderNPCS) do
-    local blip = AddBlipForCoord(v.location)
-    SetBlipSprite(blip, 214)
-    SetBlipDisplay(blip, 4)
-    SetBlipScale(blip, 0.6)
-    SetBlipColour(blip, 59)
-    SetBlipAsShortRange(blip, true)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString("Christmas Gift Shop")
-    EndTextCommandSetBlipName(blip)
-    end
-end)
-
-Citizen.CreateThread(function()
-    local shopData = {}
-    shopData[1] = {
-        header = Config.text.shopTitle,
-        isMenuHeader = true
-    }
-    
-    for i=1, #Config.giftBoxes do
-        table.insert(shopData, {
-            header = Config.giftBoxes[i].name,
-            txt = Config.text.shopItem .. tostring(Config.giftBoxes[i].cost),
-            params = {
-                event = "canes:client:buyBox",
-                args = i
-            }
-        })
-    end
-    
-    shopData[#shopData+1] = {
-        header = Config.text.shopClose,
-        txt = "",
-        params = {
-            event = "qb-menu:closeMenu"
-        }
-    }
-    
-    for i, traderNPC in pairs(Config.traderNPCS) do
-        local hash = GetHashKey(traderNPC.model)
-        RequestModel(hash)
-        while not HasModelLoaded(hash) do
-            Citizen.Wait(100)
+-- Register Menu for Candy Cane NPC 
+lib.registerContext({
+    id = 'gift_box_menu',
+    title = 'Christmas Gift Shop',
+    options = (function()
+        local items = {}
+        for _, box in ipairs(Config.GiftBoxes) do
+            table.insert(items, {
+                title = box.name,
+                description = 'Exchange the following amount of Candy: x' .. tostring(box.cost),
+                icon = "fa-gift",
+                onSelect = function()
+                    TriggerServerEvent("sd-christmas:server:buyBox", box.id)
+                end
+            })
         end
-    
-        traderNPC.ped = CreatePed(0, hash, traderNPC.location, false, false)
-        SetEntityAsMissionEntity(traderNPC.ped, true, true)
-        FreezeEntityPosition(traderNPC.ped, true)
-        SetEntityInvincible(traderNPC.ped, true)
-        SetBlockingOfNonTemporaryEvents(traderNPC.ped, true)
-        SetEntityHeading(traderNPC.ped, traderNPC.heading)
-        exports['qb-target']:AddTargetEntity(Config.traderNPCS[i].ped, {
-            options = {
-                {
-                    icon = "fas fa-hand",
-                    label = Config.text.shopCane,
-                    canInteract = function()
-                        return true
-                    end,
-                    action = function()
-                        exports['qb-menu']:openMenu(shopData)
-                    end
-                }
-            },
-            distance = 3.0
+        -- Add a close option with an appropriate icon
+        table.insert(items, {
+            title = 'Close',
+            icon = "fa-times",
+            onSelect = function()
+                lib.hideContext()
+            end
         })
-    end
+        return items
+    end)()
+})
+
+-- Ped Creation Function
+CreatePedAtCoords = function(pedModel, coords, scenario)
+    print('Creating Ped', pedModel, coords, scenario)
+    if type(pedModel) == "string" then pedModel = GetHashKey(pedModel) end
+    LoadModel(pedModel)
+    print('Creating Ped at '..coords.x..', '..coords.y..', '..coords.z..', '..coords.w)
+    local ped = CreatePed(0, pedModel, coords.x, coords.y, coords.z, coords.w, false, false)
+    FreezeEntityPosition(ped, true)
+    TaskStartScenarioInPlace(ped, scenario, 0, true)
+    SetEntityVisible(ped, true)
+    SetEntityInvincible(ped, true)
+    PlaceObjectOnGroundProperly(ped)
+    SetBlockingOfNonTemporaryEvents(ped, true)
+
+    exports.qtarget:AddTargetEntity(ped, {
+        options = {
+            {
+                action = function()
+                    lib.showContext('gift_box_menu')
+                end,
+                icon = Config.Ped.Interaction.Icon,
+                label = 'Talk..',
+                canInteract = function() return true end
+            },
+        },
+        distance = Config.Ped.Interaction.Distance,
+    })
+
+    AddEventHandler("onResourceStop", function(resource)
+        if resource == GetCurrentResourceName() then
+            DeleteEntity(ped)
+        end
+    end)
+    
+    return ped
+end
+
+-- Thread for Ped Creation
+CreateThread(function()
+    while not GlobalState.CandyCaneLocation do Wait(0) end
+    if Config.Ped.Enable then local ped = CreatePedAtCoords(Config.Ped.Model, GlobalState.CandyCaneLocation, Config.Ped.Scenario) end
 end)
 
-function LoadModel(hash)
-    hash = GetHashKey(hash)
-    RequestModel(hash)
-    while not HasModelLoaded(hash) do
-        Wait(3000)
+-- Blip Creation Thread
+CreateThread(function()
+    if Config.Ped.Enable and Config.PedBlip.Enable then
+        local coords = GlobalState.CandyCaneLocation
+        local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+        SetBlipSprite(blip, Config.PedBlip.Sprite)
+        SetBlipDisplay(blip, Config.PedBlip.Display)
+        SetBlipScale(blip, Config.PedBlip.Scale)
+        SetBlipAsShortRange(blip, true)
+        SetBlipColour(blip, Config.PedBlip.Colour)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentSubstringPlayerName(Config.PedBlip.Name)
+        EndTextCommandSetBlipName(blip)
     end
-end
+end)
 
 RegisterNetEvent('canes:respawnCane', function(loc)
     local v = GlobalState.CandyCanes[loc]
@@ -91,20 +96,12 @@ RegisterNetEvent('canes:respawnCane', function(loc)
         SetEntityAsMissionEntity(CandyCanes[loc], true, true)
         FreezeEntityPosition(CandyCanes[loc], true)
         SetEntityHeading(CandyCanes[loc], v.heading)
-        exports['qb-target']:AddTargetEntity(CandyCanes[loc], {
+        exports.qtarget:AddTargetEntity(CandyCanes[loc], {
             options = { {
                     icon = "fas fa-hand",
                     label = Config.text.pickupCane,
                     action = function()
-                        QBCore.Functions.Progressbar("pick_cane", Config.text.actionCane, 2000, false, true, {
-                            disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
-                            { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
-                            {}, {}, function()
-                            TriggerServerEvent("canes:pickupCane", loc)
-                            ClearPedTasks(PlayerPedId())
-                        end, function() -- Cancel
-                            ClearPedTasks(PlayerPedId())
-                        end)
+                        PickupCandy(loc)
                     end
                 }
             },
@@ -118,8 +115,22 @@ RegisterNetEvent('canes:removeCane', function(loc)
     CandyCanes[loc] = nil
 end)
 
+-- Function for picking up Candy Canes.
+PickupCandy = function(k)
+    local Player = GetPlayerPed()
+    StartProgress("pick_cane", 'Picking up Candy Cane..', 2000, 
+        function() -- Completed
+            TriggerServerEvent("canes:pickupCane", k)
+            ClearPedTasks(Player)
+        end, 
+        function() -- Not Finished
+            ClearPedTasks(Player)
+        end
+    )
+end
+
 RegisterNetEvent("canes:init", function()
-    for k, v in pairs (GlobalState.CandyCanes) do
+    for k, v in pairs(GlobalState.CandyCanes) do
         local hash = GetHashKey(v.model)
         if not HasModelLoaded(hash) then LoadModel(hash) end
         if not v.taken then
@@ -127,25 +138,28 @@ RegisterNetEvent("canes:init", function()
             SetEntityAsMissionEntity(CandyCanes[k], true, true)
             FreezeEntityPosition(CandyCanes[k], true)
             SetEntityHeading(CandyCanes[k], v.heading)
-            exports['qb-target']:AddTargetEntity(CandyCanes[k], {
-                options = { {
+            exports.qtarget:AddTargetEntity(CandyCanes[k], {
+                options = { 
+                    {
                         icon = "fas fa-hand",
-                        label = Config.text.pickupCane,
+                        label = 'Pick up candy cane',
                         action = function()
-                            if IsPedInAnyVehicle(PlayerPedId()) then
-                                QBCore.Functions.Notify("You can't reach the candy cane..", "error")
-                              else
-                            QBCore.Functions.Progressbar("pick_cane", Config.text.actionCane, 2000, false, true, {
-                                disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
-                                { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
-                                {}, {}, function()
-                                TriggerServerEvent("canes:pickupCane", k)
-                                ClearPedTasks(PlayerPedId())
-                            end, function() -- Cancel
-                                ClearPedTasks(PlayerPedId())
-                            end)
+                            local playerPed = PlayerPedId()
+                            if IsPedInAnyVehicle(playerPed) then
+                                ShowNotification("You can't reach the candy cane..", "error")
+                            else
+                                local animDict = "amb@prop_human_bum_bin@idle_a" -- Replace with your animation dictionary
+                                local animName = "idle_a" -- Replace with your animation name
+
+                                RequestAnimDict(animDict)
+                                while not HasAnimDictLoaded(animDict) do
+                                    Wait(100)
+                                end
+
+                                TaskPlayAnim(playerPed, animDict, animName, 8.0, -8.0, -1, 49, 0, false, false, false)
+                                PickupCandy(k)
+                            end
                         end
-                    end
                     }
                 },
                 distance = 3.0
@@ -154,28 +168,16 @@ RegisterNetEvent("canes:init", function()
     end
 end)
 
-RegisterNetEvent("canes:client:buyBox")
-AddEventHandler("canes:client:buyBox", function(item)
-    TriggerServerEvent("canes:server:buyBox", item)
-end)
-
-RegisterNetEvent("canes:client:openBox")
-AddEventHandler("canes:client:openBox", function(item)
-    QBCore.Functions.Progressbar("open_box", Config.text.openBox, math.random(2000,3500), false, true, {
-        disableMovement = true,
-        disableCarMovement = true,
-        disableMouse = false,
-        disableCombat = true,
-    }, {
-		animDict = 'anim@gangops@facility@servers@',
-		anim = 'hotwire',
-		flags = 16,
-	}, {}, {}, function() -- Done
-        TriggerServerEvent("canes:server:openBox", item)
-        ClearPedTasks(PlayerPedId())
-    end, function() -- Cancel
-        ClearPedTasks(PlayerPedId())
-    end)
+RegisterNetEvent("canes:client:openBox", function(item)
+    StartProgress("open_box", 'Opening up Gift Box..', math.random(2000, 3500), 
+        function() -- Done
+            TriggerServerEvent("canes:server:openBox", item)
+            ClearPedTasks(PlayerPedId())
+        end, 
+        function() -- Cancel
+            ClearPedTasks(PlayerPedId())
+        end
+    )
 end)
 
 AddEventHandler('onResourceStart', function(resource)
@@ -183,12 +185,6 @@ AddEventHandler('onResourceStart', function(resource)
         LoadModel('bzzz_xmas_script_lollipop_a')
         TriggerEvent('canes:init')
     end
- end)
- 
- RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-     Wait(3000)
-     LoadModel('bzzz_xmas_script_lollipop_a')
-     TriggerEvent('canes:init')
  end)
 
 AddEventHandler('onResourceStop', function(resourceName)
