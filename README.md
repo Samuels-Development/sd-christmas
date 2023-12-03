@@ -1,12 +1,15 @@
 # sd-christmas
 
+Collect candy canes and exchange them for Gifts with randomized loot in them!
+
 Please Consider checking out my other work here on GitHub or on my Store & Discord @ 
 https://fivem.samueldev.shop & https://discord.gg/samueldev
 
-Showcase
-https://www.youtube.com/watch?v=9AASphfXmXk -- Blips for the candy cane spawns are purely for testing purposes and aren't in the actual resource!
+# Showcase
+https://www.youtube.com/watch?v=9AASphfXmXk 
+-- Blips for the candy cane spawns are purely for testing purposes and aren't in the actual resource!
 
-Installation
+# Installation
 Step 1: Add sd-christmas into your resources folder (and ensure it if needed in your server.cfg)
 
 Step 2: Add the following items into your qb-core/shared/items.lua:
