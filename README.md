@@ -1,23 +1,13 @@
-# sd-christmaspack
+# sd-christmas
 
 ![Christsmas Script](https://cdn.discordapp.com/attachments/860120883296993290/1050705633453821992/Christmas_Script.png "Christsmas Script")
 
 Please Consider checking out my other work here on GitHub or on my Store & Discord @
-https://samuels-development.tebex.io & https://discord.gg/samueldev
-
-If you encounter any issues/bugs etc. you'd like adressed, make sure to join my discord and ask for support in the appropriate chat(s) or make an issue here on GitHub!
-
-# Common Issue
-- Restarting the resource whilst in-game will break the prop spawns!
+https://fivem.samueldev.shop & https://discord.gg/samueldev
 
 # Showcase
 https://www.youtube.com/watch?v=9AASphfXmXk
 -- Blips for the candy cane spawns are purely for testing purposes and aren't in the actual resource!
-
-# Requirments
-- qb-core
-- qb-menu
-- qb-target
 
 # Installation
 
@@ -30,8 +20,9 @@ Step 2: Add the following items into your qb-core/shared/items.lua:
 	['giftbox_medium'] 				 	 = {['name'] = 'giftbox_medium', 			  	  	['label'] = 'Medium Present', 			    ['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'giftbox_medium.png', 			    ['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A Small Present packed with gifts..'},
 	['giftbox_large'] 				 	 = {['name'] = 'giftbox_large', 			  	  	['label'] = 'Large Present', 			    ['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'giftbox_large.png', 			    ['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A Small Present packed with gifts..'},
 
-Now you're done and ready to start collecting!
+Or if you're using ESX, add them to your database...
 
+Now you're done and ready to start collecting!
 
 # Credits
 
