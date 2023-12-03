@@ -11,8 +11,8 @@ Please Consider checking out my other work here on GitHub or on my Store & Disco
 https://fivem.samueldev.shop & https://discord.gg/samueldev
 
 # Showcase
-https://www.youtube.com/watch?v=9AASphfXmXk 
--- Blips for the candy cane spawns are purely for testing purposes and aren't in the actual resource!
+[**Video Preview**](https://www.youtube.com/watch?v=9AASphfXmXk) 
+-- The preview is from last year, but even now, the script is essentially the same.
 
 # Requirements
 - qb-core or es_extended
