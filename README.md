@@ -26,8 +26,6 @@ Step 2: Add the following items into your qb-core/shared/items.lua:
 
 Or if you're using ESX, run the SQL found in the SQL/ESX directory.
 
-Step: 3 You're good to go!
-
 # Credits
 BzZz 🐝#9999 - https://bzzz.tebex.io/ (For allowing me to give out one of there props, that was also edited for me..) 
 marcinhu#0001 - https://marcinhu.tebex.io/ (For giving me the idea and helping out by sending some of the coordinates for his script..)
