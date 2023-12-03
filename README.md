@@ -3,12 +3,13 @@
 ![image_2023-12-03_191405375](https://github.com/Samuels-Development/sd-christmas/assets/99494967/f09ec324-6de7-4dec-aa35-d23e6971250e)
 ---
 
-
-
 Fairly basic script that I initially released a year ago but have since, almost fully rewritten. TL;DR, go around and collect candy canes and exchange them at the Gift Shop for different tiers of presents. These presents will give you random item(s).
 
 Please Consider checking out my other work here on GitHub or on my Store & Discord @ 
 https://fivem.samueldev.shop & https://discord.gg/samueldev
+
+# Disclaimer
+Restarting the resource, without relogging, will break the candy cane spawns.
 
 # Showcase
 [**Video Preview**](https://www.youtube.com/watch?v=9AASphfXmXk) 
