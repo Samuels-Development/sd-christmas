@@ -6,7 +6,7 @@ version '1.0'
 
 client_scripts {
     'bridge/client.lua',
- 	'client/main.lua',
+ 	'client/main.lua'
 }
 
 server_scripts {
