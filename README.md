@@ -14,6 +14,10 @@ https://fivem.samueldev.shop & https://discord.gg/samueldev
 [**Video Preview**](https://www.youtube.com/watch?v=9AASphfXmXk) 
 -- The preview is from last year, but even now, the script is essentially the same.
 
+![FiveM_b2944_GTAProcess_OLEwowbHXu](https://github.com/Samuels-Development/sd-christmas/assets/99494967/48db88fe-c3e0-47ba-88bd-b1ec6ba483f5)
+
+
+
 # Requirements
 - qb-core or es_extended
 - ox_lib
