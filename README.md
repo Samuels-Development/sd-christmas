@@ -8,7 +8,6 @@ Collect candy canes and exchange them for Gifts with randomized loot in them!
 
 Please Consider checking out my other work here on GitHub or on my Store & Discord @ 
 https://fivem.samueldev.shop & https://discord.gg/samueldev
----
 
 # Showcase
 https://www.youtube.com/watch?v=9AASphfXmXk 
