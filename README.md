@@ -10,7 +10,7 @@ Please Consider checking out my other work here on GitHub or on my Store & Disco
 https://fivem.samueldev.shop & https://discord.gg/samueldev
 ---
 
-Showcase
+# Showcase
 https://www.youtube.com/watch?v=9AASphfXmXk 
 -- Blips for the candy cane spawns are purely for testing purposes and aren't in the actual resource!
 
