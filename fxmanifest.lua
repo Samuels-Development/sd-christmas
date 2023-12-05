@@ -19,5 +19,5 @@ shared_scripts {
     'config.lua'
 }
 
-file 'bzzz_xmas_script_lollipop_a.ytyp'
+file 'stream/bzzz_xmas_script_lollipop_a.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'stream/bzzz_xmas_script_lollipop_a.ytyp'
