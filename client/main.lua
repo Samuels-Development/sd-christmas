@@ -97,7 +97,7 @@ RegisterNetEvent('canes:respawnCane', function(loc)
         exports.qtarget:AddTargetEntity(CandyCanes[loc], {
             options = { {
                     icon = "fas fa-hand",
-                    label = Config.text.pickupCane,
+                    label = 'Pick up candy cane',
                     action = function()
                         PickupCandy(loc)
                     end
