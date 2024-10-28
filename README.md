@@ -6,7 +6,7 @@
 Fairly basic script that I initially released a year ago but have since, almost fully rewritten. TL;DR, go around and collect candy canes and exchange them at the Gift Shop for different tiers of presents. These presents will give you random item(s).
 
 Please Consider checking out my other work here on GitHub or on my Store & Discord @ 
-https://fivem.samueldev.shop & https://discord.gg/samueldev
+https://fivem.samueldev.shop & https://discord.gg/FzPehMQaBQ
 
 # Disclaimer
 Restarting the resource, without relogging, will break the candy cane spawns.
