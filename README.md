@@ -1,41 +1,83 @@
 # sd-christmas
 
-![image_2023-12-03_191405375](https://github.com/Samuels-Development/sd-christmas/assets/99494967/f09ec324-6de7-4dec-aa35-d23e6971250e)
----
+`sd-christmas` is a unique and intuitive script where players can collect candy canes from over 150 pre-configured locations (you can easily add more). These candy canes will respawn after a set time (refer to the config). Furthermore, you can talk to Santa to exchange your candy canes for gift boxes that have random rewards and work towards milestones that reward you with rare items, more gift boxes, and/or money!
 
-Fairly basic script that I initially released a year ago but have since, almost fully rewritten. TL;DR, go around and collect candy canes and exchange them at the Gift Shop for different tiers of presents. These presents will give you random item(s).
+## Preview
+![FiveM_b3095_GTAProcess_WiexfAstQc](https://github.com/user-attachments/assets/eb868ca1-b19c-4ca3-8888-a14b2152c665)
+![FiveM_b3095_GTAProcess_0Oo1XomJ2o](https://github.com/user-attachments/assets/391c794a-3607-487e-a831-c775214d635b)
+![FiveM_b3095_GTAProcess_cty1wyXF9E](https://github.com/user-attachments/assets/091d9159-9689-4ee1-af4a-45ba2f45058a)
 
-Please Consider checking out my other work here on GitHub or on my Store & Discord @ 
-https://fivem.samueldev.shop & https://discord.gg/FzPehMQaBQ
+## 🔔 Contact
 
-# Disclaimer
-Restarting the resource, without relogging, will break the candy cane spawns.
+Author: Samuel#0008  
+Discord: [Join the Discord](https://discord.gg/FzPehMQaBQ)  
+Store: [Click Here](https://fivem.samueldev.shop)
 
-# Showcase
-[**Video Preview**](https://www.youtube.com/watch?v=9AASphfXmXk) 
--- The preview is from last year, but even now, the script is essentially the same.
+## 💾 Installation
 
-![FiveM_b2944_GTAProcess_OLEwowbHXu](https://github.com/Samuels-Development/sd-christmas/assets/99494967/48db88fe-c3e0-47ba-88bd-b1ec6ba483f5)
+1. Download the latest release from the [GitHub repository](https://github.com/Samuels-Development/sd-christmas/releases).
+2. Extract the downloaded file and rename the folder to `sd-christmas`.
+3. Place the `sd-christmas` folder into your server's `resources` directory.
+4. Add `ensure sd-christmas` to your `server.cfg` to ensure the resource starts with your server.
+5. Add the necessary items to your `qb-core/shared/items.lua` or if you're on ESX, you can run the provided `[SQL]/[ESX]/items.sql`
+```lua
+['candycane'] 				 	 = {['name'] = 'candycane', 			  	    ['label'] = 'Candy Cane', 			    ['weight'] = 500, 		['type'] = 'item', 		['image'] = 'candycane.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A Candy Cane'},
+['giftbox_small'] 				     = {['name'] = 'giftbox_small', 			  	  	['label'] = 'Small Present', 			    ['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'giftbox_small.png', 			    ['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A Small Present packed with gifts..'},
+['giftbox_medium'] 				 	 = {['name'] = 'giftbox_medium', 			  	  	['label'] = 'Medium Present', 			    ['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'giftbox_medium.png', 			    ['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A Medium Present packed with gifts..'},
+['giftbox_large'] 				 	 = {['name'] = 'giftbox_large', 			  	  	['label'] = 'Large Present', 			    ['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'giftbox_large.png', 			    ['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A Large Present packed with gifts..'},
+```
+If you're using ox_inventory, then you have to add these to your `data/items.lua`
+```lua
+["giftbox_small"] = {
+    label = "Small Present",
+    weight = 1000,
+    stack = false,
+    close = true,
+    consume = 0,
+    description = "A Small Present packed with gifts.",
+    client = {
+        image = "giftbox_small.png",
+    },
+    server = {
+        export = 'sd-christmas.UseGiftbox_small'
+    }
+},
 
+["giftbox_medium"] = {
+    label = "Medium Present",
+    weight = 1000,
+    stack = false,
+    close = true,
+    consume = 0,
+    description = "A Medium Present packed with gifts.",
+    client = {
+        image = "giftbox_medium.png",
+    },
+    server = {
+        export = 'sd-christmas.UseGiftbox_medium'
+    }
+},
 
+["giftbox_large"] = {
+    label = "Large Present",
+    weight = 1000,
+    stack = false,
+    close = true,
+    consume = 0,
+    description = "A Large Present packed with gifts.",
+    client = {
+        image = "giftbox_large.png",
+    },
+    server = {
+        export = 'sd-christmas.UseGiftbox_large'
+    }
+},
+```
 
-# Requirements
+## 📖 Dependencies
+
 - qb-core or es_extended
-- ox_lib
-
-# Installation
-Step 1: Add sd-christmas into your resources folder (and ensure it if needed in your server.cfg)
-
-Step 2: Add the following items into your qb-core/shared/items.lua:
-
-	['candycane'] 				 	 = {['name'] = 'candycane', 			  	    ['label'] = 'Candy Cane', 			    ['weight'] = 500, 		['type'] = 'item', 		['image'] = 'candycane.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A Candy Cane'},
-	['giftbox_small'] 				     = {['name'] = 'giftbox_small', 			  	  	['label'] = 'Small Present', 			    ['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'giftbox_small.png', 			    ['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A Small Present packed with gifts..'},
-	['giftbox_medium'] 				 	 = {['name'] = 'giftbox_medium', 			  	  	['label'] = 'Medium Present', 			    ['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'giftbox_medium.png', 			    ['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A Medium Present packed with gifts..'},
-	['giftbox_large'] 				 	 = {['name'] = 'giftbox_large', 			  	  	['label'] = 'Large Present', 			    ['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'giftbox_large.png', 			    ['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A Large Present packed with gifts..'},
-
-
-Or if you're using ESX, run the SQL found in the SQL/ESX directory.
+- ox_lib & [sd_lib](https://github.com/Samuels-Development/sd_lib/releases)
 
 # Credits
 BzZz 🐝#9999 - https://bzzz.tebex.io/ (For allowing me to give out one of there props, that was also edited for me..) 
-marcinhu#0001 - https://marcinhu.tebex.io/ (For giving me the idea and helping out by sending some of the coordinates for his script..)
