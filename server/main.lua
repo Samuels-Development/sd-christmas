@@ -210,3 +210,5 @@ AddEventHandler('playerDropped', function(reason)
         PlayerData[identifier] = nil
     end
 end)
+
+SD.CheckVersion('Samuels-Development/sd-christmas') -- Check version of specified resource
