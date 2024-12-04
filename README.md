@@ -3,8 +3,9 @@
 `sd-christmas` is a unique and intuitive script where players can collect candy canes from over 150 pre-configured locations (you can easily add more). These candy canes will respawn after a set time (refer to the config). Furthermore, you can talk to Santa to exchange your candy canes for gift boxes that have random rewards and work towards milestones that reward you with rare items, more gift boxes, and/or money!
 
 ## Preview
-![FiveM_b3095_GTAProcess_WiexfAstQc](https://github.com/user-attachments/assets/eb868ca1-b19c-4ca3-8888-a14b2152c665)
-![FiveM_b3095_GTAProcess_0Oo1XomJ2o](https://github.com/user-attachments/assets/391c794a-3607-487e-a831-c775214d635b)
+![FiveM_b3095_GTAProcess_WiexfAstQc](https://github.com/user-attachments/assets/e42de29c-3931-4cb0-86d1-cb5c8ae3f054)
+![FiveM_b3095_GTAProcess_Q9ZjtlHbMC](https://github.com/user-attachments/assets/45a60acd-5898-444e-b764-e78c3cb2cc69)
+![FiveM_b3095_GTAProcess_yWbJxEFzD3](https://github.com/user-attachments/assets/ecf33002-9494-474a-8cdd-e7e69ea33b34)
 ![FiveM_b3095_GTAProcess_cty1wyXF9E](https://github.com/user-attachments/assets/091d9159-9689-4ee1-af4a-45ba2f45058a)
 
 ## 🔔 Contact
