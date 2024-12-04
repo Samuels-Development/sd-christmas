@@ -1,21 +1,16 @@
 Config = {}
 
+SD.Locale.LoadLocale('en') -- Load the locale language, if available. You can change 'en' to any other available language in the locales folder.
+
 -- General Settings
 Config.RewardItem = "candycane"
 Config.RespawnTime = 600 -- Seconds
-
-Config.OxSettings = {
-    Notifications = false, -- true/false -- If set to true, the resource will use ox_lib notifications for all notifications, false will use your framework-specific notifications (eg. QBCore.Functions.Notify for ex.)  
-    NotificationPos = 'bottom', -- middle/bottom
-    ProgressBars = false, -- true/false -- If set to true, the resource will use ox_lib progress bars for all progress bars, false will use your framework-specific progress bars (eg. QBCore.Functions.Progressbar for ex.)
-    ProgressBarPos = 'circular', -- circular/normal
-}
 
 -- Candy Cane Ped Settings
 Config.Ped = {
     Enable = true, -- If enabled, the candy cane shop ped will spawn at the location below.
     Location = {
-        {x = -769.74, y = -24.77, z = 40.08, w = 209.31},
+        {x = -769.74, y = -24.77, z = 41.08, w = 209.31},
         -- Add more locations as needed (Will Randomize from available locations each script start)
     },
     Model = "a_m_m_prolhost_01",
@@ -40,7 +35,7 @@ Config.NumRewards = 1 -- Set the desired number of rewards for all gift boxes (e
 
 Config.GiftBoxes = {
     [1] = {
-        name = "Small Giftbox",
+        name_key = "small_giftbox",
         item = "giftbox_small",
         cost = 5,
         rewards = {
@@ -59,7 +54,7 @@ Config.GiftBoxes = {
         }
     },
     [2] = {
-        name = "Medium Giftbox",
+        name_key = "medium_giftbox",
         item = "giftbox_medium",
         cost = 10,
         rewards = {
@@ -78,7 +73,7 @@ Config.GiftBoxes = {
         }
     },
     [3] = {
-        name = "Large Giftbox",
+        name_key = "large_giftbox",
         item = "giftbox_large",
         cost = 20,
         rewards = {
@@ -94,19 +89,36 @@ Config.GiftBoxes = {
     }
 }
 
--- Names for the Core that'll be used to split ESX/QBCore Logic.
-Config.CoreNames = {
-    QBCore = 'qb-core', -- Edit, if you've renamed qb-core.
-    ESX = 'es_extended', -- Edit, if you've renamed es_extended
+Config.Milestones = {
+    [1] = {
+        title_key = "milestone_10_canes",
+        required_count = 1,
+        reward = {
+            type = "money",
+            money_type = "cash",
+            amount = 5000
+        }
+    },
+    [2] = {
+        title_key = "milestone_25_canes",
+        required_count = 25,
+        reward = {
+            type = "money",
+            money_type = "cash",
+            amount = 5000
+        }
+    },
+    [3] = {
+        title_key = "milestone_50_canes",
+        required_count = 50,
+        reward = {
+            type = "item",
+            item = "giftbox_large",
+            amount = 1
+        }
+    },
+    -- Add more milestones as needed
 }
-
--- Name that will be checked for to then use ox_inventory specific exports.
-Config.InvName = {
-    OX = 'ox_inventory' -- Edit if you've renamed ox_inventory
-}
-
-if GetResourceState(Config.CoreNames.QBCore) == 'started' then Framework = 'qb' elseif GetResourceState(Config.CoreNames.ESX) == 'started' then Framework = 'esx' end
-invState = GetResourceState(Config.InvName.OX)
 
 Config.CandyCanes = {
     [1] = {

@@ -1,0 +1,66 @@
+{
+    "error": {
+        "need_to_be_on_foot": "You must be on foot to collect the candy cane!",
+        "canceled": "Oh no! You canceled the action.",
+        "cane_already_taken": "This candy cane has already been picked up.",
+        "not_enough_canes": "You don't have enough candy canes for this.",
+        "need_to_be_near_santa": "You need to be near Santa to purchase gift boxes.",
+        "no_box_to_open": "You don't have any {box_name} to open.",
+        "milestone_not_reached": "You haven't collected enough candy canes to reach this milestone.",
+        "milestone_already_claimed": "You've already claimed the reward for this milestone."
+    },
+    "success": {
+        "purchased_box": "You've purchased a {box_name}! Enjoy your gift.",
+        "received_reward": "You've received {amount} x {item_name}! Happy holidays!",
+        "milestone_reached": "Fantastic! You've collected {count} candy canes!",
+        "milestone_reward_claimed": "Congratulations! You've claimed your reward: {amount} x {item_name}!",
+        "milestone_reward_claimed_money": "Congratulations! You've claimed your reward of ${amount}!"
+    },
+    "target": {
+        "talk_to_santa": "Chat with Santa",
+        "pick_up_candy_cane": "Collect Candy Cane"
+    },
+    "progress": {
+        "looting_crate": "Collecting sweet treats..."
+    },
+    "gift_shop": {
+        "title": "Santa's Magical Gift Shop",
+        "exchange_description": "Trade {cost} candy canes for a {name}!",
+        "back": "Back to the Main Menu"
+    },
+    "gift_box": {
+        "small_giftbox": "Small Gift Box",
+        "medium_giftbox": "Medium Gift Box",
+        "large_giftbox": "Large Gift Box"
+    },
+    "item_name": {
+        "candy_cane": "Candy Cane",
+        "lockpick": "Lockpick",
+        "drill": "Drill",
+        "oxy": "Oxy",
+        "advancedlockpick": "Advanced Lockpick",
+        "thermite": "Thermite",
+        "nitrous": "Nitrous",
+        "tunerlaptop": "Tuner Laptop",
+        "cryptostick": "Crypto Stick",
+        "giftbox_small": "Small Gift Box",
+        "giftbox_medium": "Medium Gift Box",
+        "giftbox_large": "Large Gift Box"
+    },
+    "milestone": {
+        "menu_title": "Milestones - {count} Canes Collected",
+        "menu_option": "View Milestones",
+        "menu_option.description": "Track the amount of candy canes you have collected and redeem Milestones for exciting rewards!",
+        "description": "Status: {status} (Requires {required} Candy Canes)",
+        "titles": {
+            "milestone_10_canes": "Candy Cane Collector (10)",
+            "milestone_25_canes": "Sweet Tooth Enthusiast (25)",
+            "milestone_50_canes": "Master of Sweets (50)"
+        },
+        "status": {
+            "locked": "Locked",
+            "available": "Available - Claim Your Reward!",
+            "claimed": "Already Claimed"
+        }
+    }
+}

@@ -1,55 +1,71 @@
-local CandyCanes = {}
+local locale = SD.Locale.T -- Variable to abbreviate the translation function
+local SpawnedCandyCanes = {} -- Table to track spawned candy canes
 
--- Register Menu for Candy Cane NPC 
-lib.registerContext({
-    id = 'gift_box_menu',
-    title = 'Christmas Gift Shop',
-    options = (function()
-        local items = {}
-        for index, box in ipairs(Config.GiftBoxes) do
+-- Player's candy cane count and claimed milestones
+local PlayerCandyCaneCount = 0
+local ClaimedMilestones = {}
+
+-- This function registers the gift shop menu.
+local RegisterGiftShopMenu = function()
+    lib.registerContext({
+        id = 'gift_box_menu',
+        title = locale('gift_shop.title'),
+        options = (function()
+            local items = {}
+            for index, box in ipairs(Config.GiftBoxes) do
+                local boxName = locale('gift_box.' .. box.name_key)
+                table.insert(items, {
+                    title = boxName,
+                    description = locale('gift_shop.exchange_description', {cost = box.cost, name = boxName}),
+                    icon = "fa-gift",
+                    onSelect = function()
+                        TriggerServerEvent("canes:server:buyBox", index)
+                    end
+                })
+            end
             table.insert(items, {
-                title = box.name,
-                description = 'Exchange the following amount of Candy: x' .. tostring(box.cost),
-                icon = "fa-gift",
+                title = locale('milestone.menu_option'),
+                description = locale('milestone.menu_option.description'),
+                icon = "fa-trophy",
                 onSelect = function()
-                    TriggerServerEvent("canes:server:buyBox", index)
+                    TriggerServerEvent("canes:server:getMilestoneData")
                 end
             })
-        end
-        -- Add a close option with an appropriate icon
-        table.insert(items, {
-            title = 'Close',
-            icon = "fa-times",
-            onSelect = function()
-                lib.hideContext()
-            end
-        })
-        return items
-    end)()
-})
+            return items
+        end)()
+    })
+end
 
--- Ped Creation Function
-CreatePedAtCoords = function(pedModel, coords, scenario)
-    if type(pedModel) == "string" then pedModel = GetHashKey(pedModel) end
-    LoadModel(pedModel)
-    local ped = CreatePed(0, pedModel, coords.x, coords.y, coords.z, coords.w, false, false)
+-- This function spawns the Santa NPC and sets up interactions.
+local SpawnSantaNPC = function()
+    local pedModel = Config.Ped.Model
+    local coords = GlobalState.CandyCaneLocation
+    local scenario = Config.Ped.Scenario
+
+    RequestModel(pedModel)
+    while not HasModelLoaded(pedModel) do
+        Wait(100)
+    end
+
+    local ped = CreatePed(0, pedModel, coords.x, coords.y, coords.z - 1.0, coords.w, false, false)
+    SetEntityAsMissionEntity(ped, true, true)
+    SetBlockingOfNonTemporaryEvents(ped, true)
     FreezeEntityPosition(ped, true)
     TaskStartScenarioInPlace(ped, scenario, 0, true)
-    SetEntityVisible(ped, true)
     SetEntityInvincible(ped, true)
-    PlaceObjectOnGroundProperly(ped)
-    SetBlockingOfNonTemporaryEvents(ped, true)
 
     exports.qtarget:AddTargetEntity(ped, {
         options = {
             {
+                icon = Config.Ped.Interaction.Icon,
+                label = locale('target.talk_to_santa'),
                 action = function()
                     lib.showContext('gift_box_menu')
                 end,
-                icon = Config.Ped.Interaction.Icon,
-                label = 'Talk..',
-                canInteract = function() return true end
-            },
+                canInteract = function()
+                    return true
+                end
+            }
         },
         distance = Config.Ped.Interaction.Distance,
     })
@@ -59,145 +75,209 @@ CreatePedAtCoords = function(pedModel, coords, scenario)
             DeleteEntity(ped)
         end
     end)
-    
-    return ped
 end
 
--- Thread for Ped Creation
-CreateThread(function()
-    while not GlobalState.CandyCaneLocation do Wait(0) end
-    if Config.Ped.Enable then local ped = CreatePedAtCoords(Config.Ped.Model, GlobalState.CandyCaneLocation, Config.Ped.Scenario) end
-end)
-
--- Blip Creation Thread
-CreateThread(function()
-    if Config.Ped.Enable and Config.PedBlip.Enable then
-        local coords = GlobalState.CandyCaneLocation
-        local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
-        SetBlipSprite(blip, Config.PedBlip.Sprite)
-        SetBlipDisplay(blip, Config.PedBlip.Display)
-        SetBlipScale(blip, Config.PedBlip.Scale)
-        SetBlipAsShortRange(blip, true)
-        SetBlipColour(blip, Config.PedBlip.Colour)
-        BeginTextCommandSetBlipName("STRING")
-        AddTextComponentSubstringPlayerName(Config.PedBlip.Name)
-        EndTextCommandSetBlipName(blip)
-    end
-end)
-
-RegisterNetEvent('canes:respawnCane', function(loc)
-    local v = GlobalState.CandyCanes[loc]
-    local hash = GetHashKey(v.model)
-    --if not HasModelLoaded(hash) then LoadModel(hash) end
-    if not CandyCanes[loc] then
-        CandyCanes[loc] = CreateObject(hash, v.location, false, true, true)
-        SetEntityAsMissionEntity(CandyCanes[loc], true, true)
-        FreezeEntityPosition(CandyCanes[loc], true)
-        SetEntityHeading(CandyCanes[loc], v.heading)
-        exports.qtarget:AddTargetEntity(CandyCanes[loc], {
-            options = { {
-                    icon = "fas fa-hand",
-                    label = 'Pick up candy cane',
-                    action = function()
-                        PickupCandy(loc)
-                    end
-                }
-            },
-            distance = 3.0
-        })
-    end
-end)
-
-RegisterNetEvent('canes:removeCane', function(loc)
-    if DoesEntityExist(CandyCanes[loc]) then DeleteEntity(CandyCanes[loc]) end
-    CandyCanes[loc] = nil
-end)
-
--- Function for picking up Candy Canes.
-PickupCandy = function(k)
-    local Player = GetPlayerPed()
-    StartProgress("pick_cane", 'Picking up Candy Cane..', 2000, 
-        function() -- Completed
-            TriggerServerEvent("canes:pickupCane", k)
-            ClearPedTasks(Player)
-        end, 
-        function() -- Not Finished
-            ClearPedTasks(Player)
-        end
-    )
+-- This function creates the blip for Santa's location.
+local CreateSantaBlip = function()
+    local coords = GlobalState.CandyCaneLocation
+    local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+    SetBlipSprite(blip, Config.PedBlip.Sprite)
+    SetBlipDisplay(blip, Config.PedBlip.Display)
+    SetBlipScale(blip, Config.PedBlip.Scale)
+    SetBlipAsShortRange(blip, true)
+    SetBlipColour(blip, Config.PedBlip.Colour)
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentSubstringPlayerName(locale('gift_shop.title'))
+    EndTextCommandSetBlipName(blip)
 end
 
-RegisterNetEvent("canes:init", function()
-    for k, v in pairs(GlobalState.CandyCanes) do
-        local hash = GetHashKey(v.model)
-        if not HasModelLoaded(hash) then LoadModel(hash) end
-        -- print('Creating Candy Cane', k, v.model, v.location.x, v.location.y, v.location.z)
-        if not v.taken then
-            CandyCanes[k] = CreateObject(v.model, v.location.x, v.location.y, v.location.z, false, true, true)
-            SetEntityAsMissionEntity(CandyCanes[k], true, true)
-            FreezeEntityPosition(CandyCanes[k], true)
-            SetEntityHeading(CandyCanes[k], v.heading)
-            exports.qtarget:AddTargetEntity(CandyCanes[k], {
-                options = { 
-                    {
-                        icon = "fas fa-hand",
-                        label = 'Pick up candy cane',
-                        action = function()
-                            local playerPed = PlayerPedId()
-                            if IsPedInAnyVehicle(playerPed) then
-                                ShowNotification("You can't reach the candy cane..", "error")
-                            else
-                                RequestAnimDict('amb@prop_human_bum_bin@idle_a')
-                                while not HasAnimDictLoaded('amb@prop_human_bum_bin@idle_a') do Wait(100) end
-
-                                TaskPlayAnim(playerPed, 'amb@prop_human_bum_bin@idle_a', 'idle_a', 8.0, -8.0, -1, 49, 0, false, false, false)
-                                PickupCandy(k)
-                            end
-                        end
-                    }
-                },
-                distance = 3.0
-            })
-        end
+-- Initialize the script.
+CreateThread(function()
+    while not GlobalState.CandyCaneLocation do
+        Wait(0)
     end
+    if Config.Ped.Enable then
+        SpawnSantaNPC()
+    end
+    if Config.PedBlip.Enable then
+        CreateSantaBlip()
+    end
+    RegisterGiftShopMenu()
 end)
 
-RegisterNetEvent("canes:client:openBox", function(item)
+-- This function handles the player picking up a Candy Cane.
+--- @param index number The index of the Candy Cane.
+local PickupCandyCane = function(index)
     local playerPed = PlayerPedId()
-    RequestAnimDict('anim@gangops@facility@servers@')
-    while not HasAnimDictLoaded('anim@gangops@facility@servers@') do Wait(100) end
-
-    TaskPlayAnim(playerPed, 'anim@gangops@facility@servers@', 'hotwire', 8.0, -8.0, -1, 49, 0, false, false, false)
-    StartProgress("open_box", 'Opening up Gift Box..', math.random(2000, 3500), 
-        function() -- Done
-            TriggerServerEvent("canes:server:openBox", item)
-            ClearPedTasks(PlayerPedId())
-        end, 
-        function() -- Cancel
-            ClearPedTasks(PlayerPedId())
-        end
-    )
-end)
-
-CreateThread(function()
-    while not GlobalState.CandyCanes do Wait(0) end
-    TriggerEvent("canes:init")
-end)
-
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-        LoadModel('bzzz_xmas_script_lollipop_a')
-        TriggerEvent('canes:init')
+    if IsPedInAnyVehicle(playerPed, false) then
+        SD.ShowNotification(locale('error.need_to_be_on_foot'), "error")
+        return
     end
- end)
 
-AddEventHandler('onResourceStop', function(resourceName)
-    if GetCurrentResourceName() == resourceName then
-        SetModelAsNoLongerNeeded(GetHashKey('bzzz_xmas_script_lollipop_a'))
-        for k, v in pairs(CandyCanes) do
-            if DoesEntityExist(v) then
-                DeleteEntity(v) SetEntityAsNoLongerNeeded(v)
+    SD.LoadAnim('pickup_object')
+
+    TaskPlayAnim(playerPed, 'pickup_object', 'pickup_low', 8.0, -8.0, 2000, 0, 0, false, false, false)
+    SD.StartProgress('looting', locale('progress.looting_crate'), math.random(1500, 3000),
+    function()
+        ClearPedTasks(playerPed)
+        TriggerServerEvent("canes:pickupCane", index)
+        PlayerCandyCaneCount = PlayerCandyCaneCount + 1
+    end, function()
+        ClearPedTasks(playerPed)
+        SD.ShowNotification(locale('error.canceled'), 'error', 2500)
+    end)
+end
+
+-- This function spawns a Candy Cane object and sets up interactions.
+--- @param index number The index of the Candy Cane.
+--- @param caneData table The data for the Candy Cane.
+local SpawnCandyCane = function(index, caneData)
+    local modelHash = GetHashKey(caneData.model)
+    RequestModel(modelHash)
+    while not HasModelLoaded(modelHash) do
+        Wait(100)
+    end
+
+    local caneObject = CreateObject(modelHash, caneData.location.x, caneData.location.y, caneData.location.z, false, true, true)
+    SetEntityAsMissionEntity(caneObject, true, true)
+    FreezeEntityPosition(caneObject, true)
+    SetEntityHeading(caneObject, caneData.heading)
+
+    exports.qtarget:AddTargetEntity(caneObject, {
+        options = {
+            {
+                icon = "fas fa-candy-cane",
+                label = locale('target.pick_up_candy_cane'),
+                action = function()
+                    PickupCandyCane(index)
+                end
+            }
+        },
+        distance = 3.0
+    })
+
+    SpawnedCandyCanes[index] = caneObject
+end
+
+-- This function removes a Candy Cane object.
+--- @param index number The index of the Candy Cane to remove.
+local RemoveCandyCane = function(index)
+    local caneObject = SpawnedCandyCanes[index]
+    if caneObject and DoesEntityExist(caneObject) then
+        DeleteEntity(caneObject)
+    end
+    SpawnedCandyCanes[index] = nil
+end
+
+-- This function listens for the 'canes:removeCane' event to remove a Candy Cane object.
+--- @param index number The index of the Candy Cane to remove.
+RegisterNetEvent('canes:removeCane', function(index)
+    RemoveCandyCane(index)
+end)
+
+-- This function listens for the 'canes:respawnCane' event to respawn a Candy Cane object.
+--- @param index number The index of the Candy Cane to respawn.
+RegisterNetEvent('canes:respawnCane', function(index)
+    local caneData = GlobalState.CandyCanes[index]
+    if caneData then
+        local playerPed = PlayerPedId()
+        local playerCoords = GetEntityCoords(playerPed)
+        local distance = #(playerCoords - caneData.location)
+        if distance < 100.0 then
+            SpawnCandyCane(index, caneData)
+        end
+    end
+end)
+
+-- This thread monitors the player's proximity to candy canes and spawns or despawns them accordingly.
+CreateThread(function()
+    while not GlobalState.CandyCanes do
+        Wait(100)
+    end
+
+    Wait(2500)
+    while true do
+        local playerPed = PlayerPedId()
+        local playerCoords = GetEntityCoords(playerPed)
+        for index, caneData in pairs(GlobalState.CandyCanes) do
+            if not caneData.taken then
+                local distance = #(playerCoords - caneData.location)
+                if distance < 50.0 then
+                    if not SpawnedCandyCanes[index] then
+                        SpawnCandyCane(index, caneData)
+                    end
+                else
+                    if SpawnedCandyCanes[index] then
+                        RemoveCandyCane(index)
+                    end
+                end
+            else
+                if SpawnedCandyCanes[index] then
+                    RemoveCandyCane(index)
+                end
             end
         end
+        Wait(1000)
     end
+end)
+
+-- This function handles the 'onResourceStop' event to clean up spawned candy canes.
+--- @param resourceName string The name of the resource that is stopping.
+local OnResourceStop = function(resourceName)
+    if resourceName == GetCurrentResourceName() then
+        for index, caneObject in pairs(SpawnedCandyCanes) do
+            if DoesEntityExist(caneObject) then
+                DeleteEntity(caneObject)
+            end
+            SpawnedCandyCanes[index] = nil
+        end
+    end
+end
+
+AddEventHandler('onResourceStop', OnResourceStop)
+
+-- This function displays the Milestone menu after receiving data from the server.
+RegisterNetEvent("canes:client:receiveMilestoneData", function(candyCaneCount, claimedMilestones)
+    PlayerCandyCaneCount = candyCaneCount
+    ClaimedMilestones = claimedMilestones
+
+    local options = {}
+    for index, milestone in ipairs(Config.Milestones) do
+        local status = ""
+        local requiredCount = milestone.required_count
+        local title = locale('milestone.titles.' .. milestone.title_key)
+        if ClaimedMilestones[index] then
+            status = locale('milestone.status.claimed')
+        elseif PlayerCandyCaneCount >= requiredCount then
+            status = locale('milestone.status.available')
+        else
+            status = locale('milestone.status.locked')
+        end
+
+        table.insert(options, {
+            title = title,
+            description = locale('milestone.description', {status = status, required = requiredCount}),
+            icon = "fa-trophy",
+            disabled = ClaimedMilestones[index] or PlayerCandyCaneCount < requiredCount,
+            onSelect = function()
+                TriggerServerEvent("canes:server:claimMilestone", index)
+            end
+        })
+    end
+
+    table.insert(options, {
+        title = locale('gift_shop.back'),
+        icon = "fa-arrow-left",
+        onSelect = function()
+            lib.showContext('gift_box_menu')
+        end
+    })
+
+    lib.registerContext({
+        id = 'milestone_menu',
+        title = locale('milestone.menu_title', {count = PlayerCandyCaneCount}),
+        options = options
+    })
+
+    lib.showContext('milestone_menu')
 end)

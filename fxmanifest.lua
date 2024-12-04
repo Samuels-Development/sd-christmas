@@ -2,22 +2,17 @@ fx_version 'adamant'
 game 'gta5'
 lua54 'yes'
 
-version '1.0'
+author 'Samuel#0008'
+description 'Basic Candy Cane Script'
+Version '1.0.0'
 
-client_scripts {
-    'bridge/client.lua',
- 	'client/main.lua'
-}
+client_script 'client/*.lua'
 
-server_scripts {
-    'bridge/server.lua',
- 	'server/main.lua'
-}
+server_script 'server/*.lua'
 
-shared_scripts {
-    '@ox_lib/init.lua',
-    'config.lua'
-}
+shared_scripts { '@sd_lib/init.lua', '@ox_lib/init.lua', 'config.lua' }
+
+files { 'locales/*.json' }
 
 file 'stream/bzzz_xmas_script_lollipop_a.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'stream/bzzz_xmas_script_lollipop_a.ytyp'
