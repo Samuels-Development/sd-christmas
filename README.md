@@ -38,7 +38,7 @@ If you're using ox_inventory, then you have to add these to your `data/items.lua
     client = {
         image = "candy_cane.png",
     }
-}
+},
 
 ["giftbox_small"] = {
     label = "Small Present",
