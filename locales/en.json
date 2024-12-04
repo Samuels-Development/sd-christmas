@@ -7,7 +7,9 @@
         "need_to_be_near_santa": "You need to be near Santa to purchase gift boxes.",
         "no_box_to_open": "You don't have any {box_name} to open.",
         "milestone_not_reached": "You haven't collected enough candy canes to reach this milestone.",
-        "milestone_already_claimed": "You've already claimed the reward for this milestone."
+        "milestone_already_claimed": "You've already claimed the reward for this milestone.",
+        "too_far_from_cane": "You are too far away from the candy cane to pick it up!",
+        "unable_to_get_player_ped": "An error occurred while trying to get your position."
     },
     "success": {
         "purchased_box": "You've purchased a {box_name}! Enjoy your gift.",
@@ -25,6 +27,8 @@
     },
     "gift_shop": {
         "title": "Santa's Magical Gift Shop",
+        "exchange_title": "Exchange Candy Canes",
+        "exchange_description_main": "Trade your candy canes for special gift boxes!",
         "exchange_description": "Trade {cost} candy canes for a {name}!",
         "back": "Back to the Main Menu"
     },
@@ -50,7 +54,7 @@
     "milestone": {
         "menu_title": "Milestones - {count} Canes Collected",
         "menu_option": "View Milestones",
-        "menu_option.description": "Track the amount of candy canes you have collected and redeem Milestones for exciting rewards!",
+        "menu_option_description": "Track the number of candy canes you've collected and redeem milestones for exciting rewards!",
         "description": "Status: {status} (Requires {required} Candy Canes)",
         "titles": {
             "milestone_10_canes": "Candy Cane Collector (10)",

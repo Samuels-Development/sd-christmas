@@ -3,7 +3,7 @@ Config = {}
 SD.Locale.LoadLocale('en') -- Load the locale language, if available. You can change 'en' to any other available language in the locales folder.
 
 -- General Settings
-Config.RewardItem = "candycane"
+Config.RewardItem = "candy_cane"
 Config.RespawnTime = 600 -- Seconds
 
 -- Candy Cane Ped Settings
@@ -730,8 +730,7 @@ Config.CandyCanes = {
         heading = 150.62,
         model = "bzzz_xmas_script_lollipop_a"
     },
--- New Additions:
-  --[[  [122] = {
+    [122] = {
         location = vector3(54.23, -1325.78, 28.31),
         heading = 79.11,
         model = "bzzz_xmas_script_lollipop_a"
@@ -936,6 +935,5 @@ Config.CandyCanes = {
         location = vector3(307.07, -272.22, 52.95),
         heading = 150.62,
         model = "bzzz_xmas_script_lollipop_a"
-    }, ]]
-
+    },
 }

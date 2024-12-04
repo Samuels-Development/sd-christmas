@@ -5,34 +5,58 @@ local SpawnedCandyCanes = {} -- Table to track spawned candy canes
 local PlayerCandyCaneCount = 0
 local ClaimedMilestones = {}
 
+-- This function registers the exchange/shop menu.
+local OpenExchangeMenu = function()
+    local options = {}
+    for index, box in ipairs(Config.GiftBoxes) do
+        local boxName = locale('gift_box.' .. box.name_key)
+        table.insert(options, {
+            title = boxName,
+            description = locale('gift_shop.exchange_description', {cost = box.cost, name = boxName}),
+            icon = "fa-gift",
+            onSelect = function()
+                TriggerServerEvent("canes:server:buyBox", index)
+            end
+        })
+    end
+    table.insert(options, {
+        title = locale('gift_shop.back'),
+        icon = "fa-arrow-left",
+        onSelect = function()
+            lib.showContext('gift_box_menu')
+        end
+    })
+    lib.registerContext({
+        id = 'exchange_menu',
+        title = locale('gift_shop.exchange_title'),
+        options = options
+    })
+    lib.showContext('exchange_menu')
+end
+
 -- This function registers the gift shop menu.
 local RegisterGiftShopMenu = function()
     lib.registerContext({
         id = 'gift_box_menu',
         title = locale('gift_shop.title'),
-        options = (function()
-            local items = {}
-            for index, box in ipairs(Config.GiftBoxes) do
-                local boxName = locale('gift_box.' .. box.name_key)
-                table.insert(items, {
-                    title = boxName,
-                    description = locale('gift_shop.exchange_description', {cost = box.cost, name = boxName}),
-                    icon = "fa-gift",
-                    onSelect = function()
-                        TriggerServerEvent("canes:server:buyBox", index)
-                    end
-                })
-            end
-            table.insert(items, {
+        options = {
+            {
+                title = locale('gift_shop.exchange_title'),
+                description = locale('gift_shop.exchange_description_main'),
+                icon = "fa-gift",
+                onSelect = function()
+                    OpenExchangeMenu()
+                end
+            },
+            {
                 title = locale('milestone.menu_option'),
-                description = locale('milestone.menu_option.description'),
+                description = locale('milestone.menu_option_description'),
                 icon = "fa-trophy",
                 onSelect = function()
                     TriggerServerEvent("canes:server:getMilestoneData")
                 end
-            })
-            return items
-        end)()
+            },
+        }
     })
 end
 
@@ -202,7 +226,7 @@ CreateThread(function()
         for index, caneData in pairs(GlobalState.CandyCanes) do
             if not caneData.taken then
                 local distance = #(playerCoords - caneData.location)
-                if distance < 50.0 then
+                if distance < 5.0 then
                     if not SpawnedCandyCanes[index] then
                         SpawnCandyCane(index, caneData)
                     end

@@ -25,8 +25,9 @@ local InitializeCandyCanesAndGiftBoxes = function()
     end
 
     for key, box in pairs(Config.GiftBoxes) do
+        local boxIndex = key
         SD.Inventory.RegisterUsableItem(box.item, function(source)
-            TriggerClientEvent("canes:client:openBox", source, key)
+            OpenBox(source, boxIndex)
         end)
     end
 end
@@ -168,13 +169,15 @@ RegisterNetEvent("canes:server:getMilestoneData", function()
 end)
 
 -- This function handles the player opening a gift box.
+--- @param source number The number/identifier of the player
 --- @param boxIndex number The index of the Gift Box being opened.
-RegisterNetEvent("canes:server:openBox", function(boxIndex)
+OpenBox = function(source, boxIndex)
     local source = source
     local box = Config.GiftBoxes[boxIndex]
     if not box then return end
 
     local boxCount = SD.Inventory.HasItem(source, box.item)
+
     if boxCount >= 1 then
         SD.Inventory.RemoveItem(source, box.item, 1)
 
@@ -197,7 +200,7 @@ RegisterNetEvent("canes:server:openBox", function(boxIndex)
         local boxName = locale('gift_box.' .. box.name_key)
         TriggerClientEvent('sd_bridge:notification', source, locale('error.no_box_to_open', {box_name = boxName}), "error", 2500)
     end
-end)
+end
 
 -- Clean up player data when they disconnect
 AddEventHandler('playerDropped', function(reason)
