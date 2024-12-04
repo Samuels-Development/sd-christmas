@@ -60,15 +60,21 @@ RegisterNetEvent("canes:pickupCane", function(locationIndex)
     local source = source
     local cane = Config.CandyCanes[locationIndex]
     if cane and not cane.taken then
-        cane.taken = true
-        GlobalState.CandyCanes = Config.CandyCanes
-        TriggerClientEvent("canes:removeCane", -1, locationIndex)
-        CaneCooldown(locationIndex)
+        local playerPed = GetPlayerPed(source)
+        if playerPed then
+            local playerCoords = GetEntityCoords(playerPed)
+            local caneCoords = cane.location
+            local distance = #(playerCoords - caneCoords)
+            if distance <= 10.0 then
+                cane.taken = true
+                GlobalState.CandyCanes = Config.CandyCanes
+                TriggerClientEvent("canes:removeCane", -1, locationIndex)
+                CaneCooldown(locationIndex)
 
-        SD.Inventory.AddItem(source, Config.RewardItem, 1)
-        IncrementPlayerCandyCaneCount(source)
-    else
-        TriggerClientEvent('sd_bridge:notification', source, locale('error.cane_already_taken'), "error", 2500)
+                SD.Inventory.AddItem(source, Config.RewardItem, 1)
+                IncrementPlayerCandyCaneCount(source)
+            end
+        end
     end
 end)
 
