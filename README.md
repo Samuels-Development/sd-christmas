@@ -28,6 +28,18 @@ Store: [Click Here](https://fivem.samueldev.shop)
 ```
 If you're using ox_inventory, then you have to add these to your `data/items.lua`
 ```lua
+["candy_cane"] = {
+    label = "Candy Cane",
+    weight = 100,
+    stack = true,
+    close = true,
+    consume = 0,
+    description = "A festive candy cane. Collect them or trade them for gifts!",
+    client = {
+        image = "candy_cane.png",
+    }
+}
+
 ["giftbox_small"] = {
     label = "Small Present",
     weight = 1000,
