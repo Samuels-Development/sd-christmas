@@ -51,7 +51,7 @@ If you're using ox_inventory, then you have to add these to your `data/items.lua
         image = "giftbox_small.png",
     },
     server = {
-        export = 'sd-christmas.UseGiftbox_small'
+        export = 'sd-christmas.useGiftbox_small'
     }
 },
 
@@ -66,7 +66,7 @@ If you're using ox_inventory, then you have to add these to your `data/items.lua
         image = "giftbox_medium.png",
     },
     server = {
-        export = 'sd-christmas.UseGiftbox_medium'
+        export = 'sd-christmas.useGiftbox_medium'
     }
 },
 
@@ -81,7 +81,7 @@ If you're using ox_inventory, then you have to add these to your `data/items.lua
         image = "giftbox_large.png",
     },
     server = {
-        export = 'sd-christmas.UseGiftbox_large'
+        export = 'sd-christmas.useGiftbox_large'
     }
 },
 ```
